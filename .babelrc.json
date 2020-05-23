@@ -1,0 +1,26 @@
+{
+	"plugins": [
+		"@babel/plugin-transform-typescript"
+	],
+	"presets": [
+	  [
+		"@babel/preset-env",
+		{
+		  "targets": {
+			"esmodules": true,
+			"node"     : "12"
+		  }
+		}
+	  ]
+	],
+	"sourceMaps" : false,
+	"retainLines": true,
+	"compact"    : true,
+	"env"        : {
+		"development": {
+			"sourceMaps" : "both",
+			"retainLines": true,
+			"compact"    : true
+		}
+	}
+}

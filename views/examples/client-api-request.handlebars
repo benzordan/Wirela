@@ -1,0 +1,21 @@
+
+<p>
+	This example shows how to use an API service be it from your own server or from external sources
+</p>
+
+<div class="container">
+	<!-- Show the bar loading, make a request, hide bar, show the data upon request fulfilled -->
+	<div id="progress-bar" class="spinner-border" style="display: block;"></div>
+
+	<div id="status-load-failed" style="display: none;">
+		<p>
+			The http request failed with <span id="status-code"></span>
+		</p>
+	</div>
+
+	<div id="status-load-success" style="display: none;">
+		<p>
+			<span id="content"></span>
+		</p>	
+	</div>
+</div>
