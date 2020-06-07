@@ -1,0 +1,16 @@
+.productimg {
+    min-height: 300px;
+    min-width: 200px;
+    background-image: url('../../img/keyboard.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+@media only screen and (min-width: 768px) {
+    .productimg {
+        height: 300px;
+        width: 200px;
+    }
+}
+

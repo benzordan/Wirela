@@ -1,0 +1,39 @@
+.main {
+    position: relative;
+    text-align: center;
+    max-height: 900px;
+}
+
+#coverimg {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    min-height: 100vh;
+    object-fit: cover;
+}
+
+.heading {
+    position: relative;
+    bottom: 750px;
+}
+
+.brand {
+font-size: 70px;
+font-family: "Righteous", sans-serif;
+}
+
+.subitem {
+    min-height: 150vh;
+}
+
+.widget {
+    margin: 10px 0px;
+    height: 60vh;
+    background-size: cover;
+    background-position: center;
+}
+
+.widimg {
+    height: 100%;
+    width: 100%;
+}

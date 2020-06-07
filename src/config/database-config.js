@@ -1,10 +1,10 @@
 /**
  * The database configuration used for this application
+ * Create schema & account in mySQL based on these configuration
  */
 export const Config = {
 	host    : "localhost",
-	port    : 3306,
-	user    : "itp2155-admin",
-	password: "P@ssw0rd",
-	database: "itp2155",
+	database: "wirela",
+	user    : "wirela-admin",
+	password: "W1rela",
 };

@@ -32,7 +32,9 @@ function handle_logout(request, response) {
  * @param {Response} response 
  */
 function handle_register(request, response) {
-	response.render("user/register");
+	response.render("user/register", {
+		"pageCSS": "/css/user/register.css"
+	});
 }
 
 /**
@@ -84,7 +86,7 @@ async function handle_register_submit(request, response) {
 			"data"         : request.body
 		});
 	}
-	//	Rediirect to login or you can just show a "Thank you page etc"
+	//	Redirect to login or you can just show a "Thank you page etc"
 	//	Depends on how you want your users to feel
 	else {
 
@@ -120,7 +122,9 @@ async function handle_register_submit(request, response) {
  * @param {Response} response 
  */
 function handle_login(request, response) {
-	response.render("user/login");
+	response.render("user/login", {
+		"pageCSS": "/css/user/login.css"
+	});
 }
 
 /**

@@ -65,6 +65,7 @@ function serialize_user(user, done) {
  * @param {ModelUser} user 
  * @param {err: Error, id?: ModelUser)} done 
 **/
+
 async function deserialize_user(userId, done) {
 	try {
 		const user = await ModelUser.findByPk(userId);

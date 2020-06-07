@@ -18,12 +18,11 @@
 	<script src="https://unpkg.com/gijgo@1.9.11/js/gijgo.min.js" type="text/javascript"></script>
 
 	{{!--Font Awesome icons --}}
-	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
-		integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css"
-		integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+	<script src="https://kit.fontawesome.com/bb9b38f357.js" crossorigin="anonymous"></script>
 	{{!--Google fonts Icon--}}
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet"> 
 
 	{{!-- Lightbox --}}
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css"
@@ -40,30 +39,25 @@
 		crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap-confirmation2/dist/bootstrap-confirmation.min.js"></script>
 
-	<!-- Assumes pageCSS is a array of String containing file Paths -->
-	<!-- pageCSS = [] or undefined or null -->
-	<!-- pageCSS = ["/css/about.css", "/css/about2.css"]      -->
-	{{#each pageCSS}}
-		<link href="{{this}}" rel="stylesheet">
-	{{/each}}
-
+	<!-- page css -->
+	<link href="{{pageCSS}}" rel="stylesheet">
 	<script src="/js/main.js"></script>
+	
+	<!-- javacript css -->
+	<script src="{{pageJS}}" async></script>
+	
 
-	<!-- Assumes pageJS is a array of String containing file Paths -->
-	{{#each pageJS}}
-		<script src="{{this}}"></script>
-	{{/each}}
-
-	<title>VidJot - The Video Collection Jotter</title>
+	<title>{{title}}</title>
 </head>
 
 <body>
 	{{> _navbar}}
-	<div class="container">
-		{{> _messenger}}
-		{{> _msg}}
-		{{> _errors}}
+	{{> _messenger}}
+	{{> _msg}}
+	{{> _errors}}
+	<div class="wrapper">
 		{{{body}}}
 	</div>
+	{{> _footer}}
 </body>
 </html>

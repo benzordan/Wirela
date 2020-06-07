@@ -23,7 +23,7 @@ import   { listRoutes }                        from './utils/routes'
 import   { format_date }                       from './helpers/format-date'
 import   { multi_check }                       from './helpers/selection'
 import   { logic_helpers }                     from './helpers/compare'
-import passport from 'passport'
+
 /**
  * Creates an Express server - Express is a web application framework for creating web applications
  * in Node JS.

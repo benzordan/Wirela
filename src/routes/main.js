@@ -24,20 +24,52 @@ const router = Router({
 	strict       : false    //	Whether we should strictly differenciate "/home/" and "/home"
 });
 
+export const products = [
+	{
+		product: "Apple IPhone X",
+		desc: "Latest innovation",
+		price: 1000,
+	},
+	{
+		product: "Samsung X",
+		desc: "Next generation camera feature",
+		price: 500,
+	},
+	{
+		product: "Oppo Xfinity",
+		desc: "Biggest screen",
+		price: 200,
+	},
+	{
+		product: "Lightning Cable",
+		desc: "The most overpriced product we have",
+		price: 40000,
+	},
+];
+
 /**
  * Your base routes
  */
 router.get('/',      page_home);
 router.get('/about', page_about);
+router.get('/catalog', page_catalog);
 /**
  * Subroutes to be added here
  */
 router.use('/auth',      require('./auth'));
 router.use('/video',     require('./video'));
 router.use('/admin',     require('./admin/admin'));
+router.use('/cart', 	 require('./cart'));
 //	This route contains examples
 router.use('/examples',  require('./examples/examples'));
 module.exports = router;
+
+function page_catalog(req, res) {
+	res.render('catalog', {
+		products: products,
+		"pageCSS": "/css/user/catalog.css"
+	})
+}
 
 /**
  * Renders the home page
@@ -46,7 +78,8 @@ module.exports = router;
  */
 function page_home(req, res) {
 	res.render('index', {
-		"title": 'Video Jotter'
+		"title": 'wirela - electronics purveyor',
+		"pageCSS": "/css/user/main.css"
 	});
 }
 

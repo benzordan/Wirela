@@ -38,3 +38,11 @@
 	language?      : string;
 	classification?: string;
 }
+/** 
+ This structure represents an order stored in the database
+**/
+export interface Order {
+	orderId? : string;
+	orderDate? : Date;
+	userId?: string;
+}

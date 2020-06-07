@@ -1,4 +1,54 @@
-.logo{
-  width:130px;
-  margin:auto;
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
 }
+
+.wrapper {
+  min-height: 100vh;
+}
+
+.navbar {
+  top: 0;
+  width: 100%;
+  font-size: 17px;
+  opacity: 0.85;
+  z-index: 9999;
+}
+
+.navbar-custom {
+background-color: black;
+}
+
+#brand {
+font-size: 28px;
+font-family: "Righteous", sans-serif;
+}
+
+.bgimg {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.footer {
+  background-color: black;
+  opacity: 0.93;
+  position: relative;
+  width: 100%;
+  bottom: 0;
+  color: white;
+  }
+
+.error {
+  text-align: center;
+  background-color: lightcoral;
+  border: 2px rgb(238, 119, 119) solid;
+  padding: 10px;
+  margin-top: 2px;
+}
+

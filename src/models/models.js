@@ -8,9 +8,11 @@
 //	It would be wiser to keep them separated.
 export { ModelUser  }     from './users'
 export { ModelVideo }     from './videos'
+export { ModelOrder } from './orders'
 
 import { ModelUser }      from './users'
 import { ModelVideo }     from './videos'
+import { ModelOrder } from './orders'
 
 //	Additional dependencies required
 import { sha256 }                  from 'hash.js'
@@ -24,15 +26,18 @@ import { Sequelize, SyncOptions }  from 'sequelize'
 export function initialize_models(sequelize) {
 	console.log("Intitializing ORM models");
 	try {
-		//	Initialzie models
+		//	Initialize models
 		ModelUser .initialize(sequelize);
 		ModelVideo.initialize(sequelize);
+		ModelOrder.initialize(sequelize);
 
 		console.log("Building ORM model relations and indices");
 		//	Create relations between models or tables
 		//	Setup foreign keys, indexes etc
 		ModelUser.hasMany(ModelVideo, { foreignKey: { name: "uuid_user" } });
-		
+
+		// Enable once products has been created
+		// ModelOrder.hasMany(ModelProduct, { foreignKey: { name: "orderId"}})
 		console.log("Adding intitialization hooks");
 		//	Run once hooks during initialization
 		sequelize.addHook("afterBulkSync", generate_root_account.name,  generate_root_account.bind(this, sequelize));
@@ -119,3 +124,8 @@ async function generate_root_account(sequelize, options) {
 		return Promise.reject(error);
 	}
 }
+
+/**
+ * @param {Sequelize} sequelize
+ * @param {SyncOptions} options 
+ */
