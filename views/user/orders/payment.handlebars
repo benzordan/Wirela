@@ -3,8 +3,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" /> <!-- Optimal Internet Explorer compatibility -->
 </head>
 <body>
+<h1 style="text-align: center; padding-top:80px;font-family:poppins">checkout</h1>
 <script src="https://www.paypal.com/sdk/js?client-id=AfoA19isLSYjyh56dTvTfBcPOiZ75Sb4xSNAIl5Yd4Y38OYbhwXLaTrni-AlqaIgD9XEPwf2wyk8LmKT"></script>
-<div id="paypal-button-container"></div>
+<div id="paypal-button-container" style="padding-left:400px;padding-top:80px;"></div>
 
 <script>
   paypal.Buttons({
@@ -23,7 +24,7 @@
       // This function captures the funds from the transaction.
       return actions.order.capture().then(function(details) {
         // This function shows a transaction success message to your buyer.
-        alert('Transaction completed by ' + details.payer.name.given_name + ', thank you for your purchase!');
+        window.alert('Transaction completed by ' + details.payer.name.given_name + ', thank you for your purchase!');
       });
     }
   }).render('#paypal-button-container');
