@@ -11,11 +11,7 @@ export class UserRole {
 	static get Admin() { return "admin"; }
 	static get User()  { return "user";  }
 }
-/**
- * A database entity model that represents contents in the database.
- * This model is specifically designed for users
- * @see "https://sequelize.org/master/manual/model-basics.html#taking-advantage-of-models-being-classes"
-**/
+
 export class ModelUser extends Model {
 	/**
 	 * Initializer of the model
@@ -32,9 +28,9 @@ export class ModelUser extends Model {
 	 * @access private
 	 * @return {ModelAttributes} Column attributes required to build tables
 	 **/
-	 static _columns() {
+	static _columns() {
 			return {
-				"uuid"       : { type: DataTypes.CHAR(36),    primaryKey: true, defaultValue: DataTypes.UUIDV4 },
+				"uuid-user"       : { type: DataTypes.CHAR(36),    primaryKey: true, defaultValue: DataTypes.UUIDV4 },
 				"dateCreated": { type: DataTypes.DATE(),      allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
 				"dateUpdated": { type: DataTypes.DATE(),      allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
 				"name"       : { type: DataTypes.STRING(64),  allowNull: false },
