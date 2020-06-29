@@ -27,12 +27,11 @@ export class ModelProduct extends Model {
 	 **/
 	static _columns() {
 			return {
-                "uuid-product": {type: DataTypes.CHAR(36), primaryKey: true, defaultValue: DataTypes.UUIDV4},
-                "name": { type: DataTypes.STRING(32), allowNull: false, },
-                "desc": {type: DataTypes.STRING(4096), allowNull: false, defaultValue: "N.A"},
+                "uuid_product": {type: DataTypes.CHAR(36), primaryKey: true, defaultValue: DataTypes.UUIDV4},
+                "name": { type: DataTypes.STRING(64), allowNull: false, },
+                "description": {type: DataTypes.STRING(4096), allowNull: false, defaultValue: "N.A"},
                 "quantity": { type: DataTypes.INTEGER(12), allowNull: false},
-				"price": { type:DataTypes.INTEGER(12), allowNull: false},
-                
+				"price": { type:DataTypes.INTEGER(8), allowNull: false}
 		};
 	}
 

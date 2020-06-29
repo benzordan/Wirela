@@ -30,7 +30,7 @@ export class ModelUser extends Model {
 	 **/
 	static _columns() {
 			return {
-				"uuid-user"       : { type: DataTypes.CHAR(36),    primaryKey: true, defaultValue: DataTypes.UUIDV4 },
+				"uuid_user"       : { type: DataTypes.CHAR(36),    primaryKey: true, defaultValue: DataTypes.UUIDV4 },
 				"dateCreated": { type: DataTypes.DATE(),      allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
 				"dateUpdated": { type: DataTypes.DATE(),      allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
 				"name"       : { type: DataTypes.STRING(64),  allowNull: false },

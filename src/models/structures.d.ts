@@ -5,11 +5,13 @@
  * are identical to .js files. Intellisense isn't that good to differenciate.
 **/
 
+import { IntegerDataType } from "sequelize/types";
+
 /**
  * This structure represents a user stored in the database.
 **/
  export interface User {
-	uuid?       : string;
+	uuid_user?       : string;
 	dateCreated?: Date;
 	dateUpdated?: Date;
 	name?       : string;
@@ -23,26 +25,27 @@
 	 */
 	role?: string;
 }
-
 /**
- * This structure represents a video stored in the database.
-**/
- export interface Video {
-	uuid?          : string;
-	dateCreated?   : Date;
-	dateUpdated?   : Date;
-	dateReleased?  : Date;
-	title?         : string;
-	subtitle?      : string;
-	story?         : string;
-	language?      : string;
-	classification?: string;
+ * This structure represents a product stored in the database
+ */
+export interface Product {
+	uuid_product? : string;
+	name? : string;
+	description? : string;
+	quantity? : integer;
+	price? : integer;
 }
+
 /** 
- This structure represents an order stored in the database
+This structure represents an order stored in the database
 **/
 export interface Order {
-	orderId? : string;
+	uuid_order? : string;
 	orderDate? : Date;
+	name? : string;
+	address? : string;
+	phone? : string;
+	email? : string;
+	totalPrice? : integer;
 	userId?: string;
 }

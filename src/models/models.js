@@ -1,8 +1,3 @@
-/**
- * This file is designed to organize all database ORM models.
- * You may perform forward exports on this file.
-**/
-
 export { ModelUser  }     from './users'
 export { ModelOrder } from './orders'
 export { ModelProduct } from './products'
@@ -10,7 +5,6 @@ export { ModelProduct } from './products'
 import { ModelUser }      from './users'
 import { ModelOrder } from './orders'
 import { ModelProduct } from './products'
-
 
 import { sha256 }                  from 'hash.js'
 import { Sequelize, SyncOptions, SequelizeScopeError }  from 'sequelize'
@@ -23,7 +17,6 @@ import { Sequelize, SyncOptions, SequelizeScopeError }  from 'sequelize'
 export function initialize_models(sequelize) {
 	console.log("Intitializing ORM models");
 	try {
-		//	Initialize models
 		ModelUser.initialize(sequelize);
 		ModelOrder.initialize(sequelize);
 		ModelProduct.initialize(sequelize);
@@ -32,13 +25,12 @@ export function initialize_models(sequelize) {
 
 		//	Create relations between models or tables
 		//	Setup foreign keys, indexes etc
-		ModelUser.hasMany(ModelOrder, { foreignKey: { name: "uuid-user"} });
-		ModelOrder.hasMany(ModelProduct, { foreignKey: { name: "uuid-order"} });
+		ModelUser.hasMany(ModelOrder, { foreignKey: { name: "uuid_user"} });
+		ModelOrder.hasMany(ModelProduct, { foreignKey: { name: "uuid_order"} });
 			
 		console.log("Adding intitialization hooks");
 		//	Run once hooks during initialization
 		sequelize.addHook("afterBulkSync", generate_root_account.name,  generate_root_account.bind(this, sequelize));
-		// sequelize.addHook("afterBulkSync", generate_videos.name,        generate_videos.bind(this, sequelize));
 		sequelize.addHook("afterBulkSync", generate_products.name, generate_products.bind(this, sequelize));
 	}
 	catch (error) {
@@ -62,14 +54,14 @@ async function generate_root_account(sequelize, options) {
 		 * @type {import('./users').User}
 		 */
 		const root_parameters = {	
-			uuid    : "00000000-0000-0000-0000-000000000000",
+			uuid_user : "00000000-0000-0000-0000-000000000000",
 			name    : "root",
 			email   : "root@mail.com",
 			role    : "admin",
 			password: sha256().update("P@ssw0rd").digest("hex")
 		};
 		//	Find for existing account with the same id, create or update
-		var account = await ModelUser.findOne({where: { "uuid-user": root_parameters.uuid }});
+		var account = await ModelUser.findOne({where: { "uuid_user": root_parameters.uuid_user }});
 		
 		account = await ((account) ? account.update(root_parameters): ModelUser.create(root_parameters));
 		

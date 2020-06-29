@@ -57,7 +57,7 @@ async function verify_request(username, password, done) {
  * @param {err: Error, id?: string)} done 
 **/
 function serialize_user(user, done) {
-	done(null, user.uuid-user);
+	done(null, user.uuid_user);
 }
 
 /**
