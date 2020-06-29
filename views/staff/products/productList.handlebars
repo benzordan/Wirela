@@ -1,0 +1,28 @@
+<div class="container">
+    {{#if products}}
+    <div class="row">
+        {{#each products}}
+        <div class="col-md-6 col-lg-3">
+            <div class="productimg mt-5 mb-2"></div>
+            <h2>{{name}}</h2>
+            <h4>{{desc}}</h4>
+            <h4>{{quantity}}</h4>
+            <h4>{{price}}</h4>
+            <div class="col-sm-12 col-md-12 col-lg-2">
+                <p class="font-italic"></p>
+                <a href="/admin/update/{{uuid}}" class="card-link">
+                    <i class="fas fa-pencil-alt"></i>
+                    Edit
+                </a>
+                <form method="POST" action="/admin/delete/{{uuid}}?_method=DELETE" id="toggle-delete-{{uuid}}">
+                    <a href="javascript:;" class="card-link btn-delete" onclick="if (confirm('Confirm delete?')) parentNode.submit();" data-title="Confirm delete?">
+                        <i class="far fa-trash-alt"></i>
+                        Delete
+                    </a>
+                </form>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+    {{/if}}
+</div>
