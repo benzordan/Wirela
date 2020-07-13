@@ -1,6 +1,6 @@
 <div class="container">
     <div class="text-center">
-        <h1 class="bagtotal mt-5">Your bag total is <span id="totalprice"></span></h1>
+        <h1 class="bagtotal mt-5">Your Cart <span id="totalprice"></span></h1>
         {{!-- Redirect to payment page --}}
         <a href="/cart/payment">
             <button class="btn btn-primary mt-2">Checkout</button>
@@ -8,9 +8,82 @@
     </div>
 </div>
 
+<style>
+    .Button
+    {
+        margin:5px;
+    }
+</style>
 
 <div id="cart-container" class="container">
+     &nbsp;&nbsp;
+    <ul class = "nav nav-tabs txtUpper 
+    clearfix js-productInfoTab">
+    &nbsp;&nbsp;
+    &nbsp;&nbsp;
+    &nbsp;&nbsp;
+    &nbsp;&nbsp;
+    &nbsp;&nbsp;
+    &nbsp;&nbsp;
+    &nbsp;&nbsp;
+    &nbsp;&nbsp;
+    &nbsp;&nbsp;
+        <li class= "active" >
+            <a href = #productDetails" data-
+            toggle="tab"> Products </a>
+        </li>
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        <li class= "sizeDetailtab" >
+            <a href = #sizeDetails" data-
+            toggle="tab">Price ($sgd)</a>
+        </li>
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        <li class= "productReviewsTab" >
+            <a href = #productReviews" data-
+            toggle="tab">Quantity</a>
+        </li>
+    </ul>
+
     <div class="cart-items">
+
     {{#each products}}
         <div class="cart-row">
             <div class="cart-item cart-column">
@@ -20,10 +93,17 @@
             <span class="cart-price cart-column">${{price}}</span>
             <div class="cart-quantity cart-column">
                 {{!-- Retrieve value here --}}
-                <input class="cart-quantity-input" type="number" value="1">
+                <input type="number" min="0">
+            
+
+                &nbsp;&nbsp;
+                &nbsp;&nbsp;
+                <button class="btn btn-primary" type="button" value="add" onClick="add()"> Add</button>
+                &nbsp;&nbsp;
                 <button class="btn btn-danger" type="button">Remove</button>
             </div>
         </div>
     {{/each}}
     </div>
 </div>
+<script type = "text/javascript"></script>
