@@ -1,6 +1,4 @@
 import { Router, Request, Response } from 'express'
-import { ModelVideo } from '../../models/videos'
-
 import   MySQL    from 'mysql2/promise'
 import   {Config} from '../../config/database-config'
 

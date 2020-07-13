@@ -1,0 +1,23 @@
+.wrapper {
+    display: flex;
+    width: 100%;
+}
+.page-wrapper {
+    margin-left: 260px;
+    width: 80%;
+    display: inline-block;
+}
+.sidebar {
+    width: 260px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    background: #7386D5;
+    color: #fff;
+    float: left;
+    z-index: 1000;
+}
+.sidebar-section {
+    padding: 20px;
+}
