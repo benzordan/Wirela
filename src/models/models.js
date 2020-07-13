@@ -1,13 +1,22 @@
+/**
+ * This file is designed to organize all database ORM models.
+ * You may perform forward exports on this file.
+**/
+//	Forward Exporting, so that these classes can be used from this file
+//	These can be written as the following, however inteliisense may not work as intended:
+//		export import { xxx } from './somepath'
+//	It would be wiser to keep them separated.
 export { ModelUser  }     from './users'
+export { ModelVideo }     from './videos'
 export { ModelOrder } from './orders'
-export { ModelProduct } from './products'
 
 import { ModelUser }      from './users'
+import { ModelVideo }     from './videos'
 import { ModelOrder } from './orders'
-import { ModelProduct } from './products'
 
+//	Additional dependencies required
 import { sha256 }                  from 'hash.js'
-import { Sequelize, SyncOptions, SequelizeScopeError }  from 'sequelize'
+import { Sequelize, SyncOptions }  from 'sequelize'
 
 
 /**
@@ -17,21 +26,22 @@ import { Sequelize, SyncOptions, SequelizeScopeError }  from 'sequelize'
 export function initialize_models(sequelize) {
 	console.log("Intitializing ORM models");
 	try {
-		ModelUser.initialize(sequelize);
+		//	Initialize models
+		ModelUser .initialize(sequelize);
+		ModelVideo.initialize(sequelize);
 		ModelOrder.initialize(sequelize);
-		ModelProduct.initialize(sequelize);
 
 		console.log("Building ORM model relations and indices");
-
 		//	Create relations between models or tables
 		//	Setup foreign keys, indexes etc
-		ModelUser.hasMany(ModelOrder, { foreignKey: { name: "uuid_user"} });
-		ModelOrder.hasMany(ModelProduct, { foreignKey: { name: "uuid_order"} });
-			
+		ModelUser.hasMany(ModelVideo, { foreignKey: { name: "uuid_user" } });
+
+		// Enable once products has been created
+		// ModelOrder.hasMany(ModelProduct, { foreignKey: { name: "orderId"}})
 		console.log("Adding intitialization hooks");
 		//	Run once hooks during initialization
 		sequelize.addHook("afterBulkSync", generate_root_account.name,  generate_root_account.bind(this, sequelize));
-		sequelize.addHook("afterBulkSync", generate_products.name, generate_products.bind(this, sequelize));
+		// sequelize.addHook("afterBulkSync", generate_videos.name,        generate_videos.bind(this, sequelize));
 	}
 	catch (error) {
 		console.error ("Failed to configure ORM models");
@@ -54,14 +64,14 @@ async function generate_root_account(sequelize, options) {
 		 * @type {import('./users').User}
 		 */
 		const root_parameters = {	
-			uuid_user : "00000000-0000-0000-0000-000000000000",
+			uuid    : "00000000-0000-0000-0000-000000000000",
 			name    : "root",
 			email   : "root@mail.com",
 			role    : "admin",
 			password: sha256().update("P@ssw0rd").digest("hex")
 		};
 		//	Find for existing account with the same id, create or update
-		var account = await ModelUser.findOne({where: { "uuid_user": root_parameters.uuid_user }});
+		var account = await ModelUser.findOne({where: { "uuid": root_parameters.uuid }});
 		
 		account = await ((account) ? account.update(root_parameters): ModelUser.create(root_parameters));
 		
@@ -77,38 +87,45 @@ async function generate_root_account(sequelize, options) {
 	}
 }
 
+
 /**
- * This functions generates products
- * @param {Sequelize} sequelize
- * @param {SyncOptions} options 
+ * This function generates a bunch of dummy videos
+ * @param {Sequelize} sequelize Database ORM handle
+ * @param {SyncOptions} options Synchronization options, not used
  */
-async function generate_products(sequelize, options) {
+ async function generate_videos(sequelize, options) {
+	//	Remove this callback to ensure it runs only once
+	sequelize.removeHook("afterBulkSync", generate_videos.name);
+	//	Create a root user if not exists otherwise update it
 	try {
-		sequelize.removeHook("afterBulkSync", generate_products.name);
-		console.log("Generating product items");
+		console.log("Generating dummy videos");
 		/**
-		 * 
-		 * @type {Array<import('./products').Products>}
-		 */
+		 * @type {Array<import('./videos').Video>}
+		**/
 		const parameters = [];
-		for (var i = 0; i < 50; i++ ) {
+		for (var i = 0; i < 100; ++i) {
 			parameters.push({
-				name: `Product ${i.toString()}`,
-				desc: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed justo.`,
-				quantity: 50,
-				price: 20 + i
+				title       : `Video ${i.toString().padStart(3, '0')}`,
+				dateReleased: new Date(),
+				uuid_user   : "00000000-0000-0000-0000-000000000000"
 			});
 		}
-		//	Clear all products
-		const rows_deleted = await ModelProduct.destroy({ where: { } });
-		const list_products = await ModelProduct.bulkCreate(parameters);
-		console.log(`Deleted ${rows_deleted} dummy product data`);
-		console.log(`Inserted ${list_products.length}`);
+		//	Clear all videos
+		const rows_deleted = await ModelVideo.destroy({ where: { } });
+		//	Find for existing account with the same id, create or update
+		const list_videos = await ModelVideo.bulkCreate(parameters);
+		console.log(`Deleted ${rows_deleted} dummy video data`);
+		console.log(`Inserted ${list_videos.length}`);
 		return Promise.resolve();
 	}
 	catch (error) {
-		console.log("Failed to generate products");
-		console.log(error);
+		console.error ("Failed to generate dummy data for videos");
+		console.error (error);
 		return Promise.reject(error);
 	}
 }
+
+/**
+ * @param {Sequelize} sequelize
+ * @param {SyncOptions} options 
+ */
