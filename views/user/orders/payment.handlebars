@@ -296,10 +296,6 @@ function validateForm() {
       <input type="text" name="city"> 
     </label>
     <label>
-      <span>State / County <span class="required">*</span></span>
-      <input type="text" name="city"> 
-    </label>
-    <label>
       <span>Postcode / ZIP <span class="required">*</span></span>
       <input type="text" name="city"> 
     </label>
@@ -336,7 +332,10 @@ function validateForm() {
     &nbsp;&nbsp;
     &nbsp;&nbsp;
     &nbsp;&nbsp;
-    <button type="button" onclick="placeOrder()">Place Order</button>
+    <p style="font-family: Poppins;color:black; padding-right: 22px;">PAY USING</p>
+    <button onclick="placeOrder()">
+      <div id="paypal-button-container" type="button"></div>
+    </button>
     </form>
   </div><!-- Yorder -->
  </div>
@@ -350,22 +349,19 @@ function validateForm() {
 
 <script src="https://www.paypal.com/sdk/js?client-id=AfoA19isLSYjyh56dTvTfBcPOiZ75Sb4xSNAIl5Yd4Y38OYbhwXLaTrni-AlqaIgD9XEPwf2wyk8LmKT"></script>
 
-<div id="paypal-button-container" style="padding-left:400px;padding-top:80px;"></div>
+
 
 <script>
   
   function placeOrder() {
     //alert(1);
-  var x = document.forms["orderForm"]["fname"].value;
-  if (x == "") {
+    var x = document.forms["orderForm"]["fname"].value;
+    if (x == "") {
     alert("Please fill in all the boxes!");
     return false;
   }
-  
   }
-
-
-  paypal.Buttons({
+paypal.Buttons({
     createOrder: function(data, actions) {
       // This function sets up the details of the transaction, including the amount and line item details.
       return actions.order.create({
@@ -381,9 +377,13 @@ function validateForm() {
       // This function captures the funds from the transaction.
       return actions.order.capture().then(function(details) {
         // This function shows a transaction success message to your buyer.
-        window.alert('Transaction completed by ' + details.payer.name.given_name + ', thank you for your purchase!');
+      if(alert('Transaction completed by ' + details.payer.name.given_name + ', thank you for your purchase!')){
+        location.href = "localhost:5000"
+      }
       });
     }
   }).render('#paypal-button-container');
+
+  
 </script>
 </body>
