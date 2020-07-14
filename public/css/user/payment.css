@@ -33,6 +33,7 @@ form{
 h2{
   margin: 0;
   padding-left: 15px; 
+  font-family: "Poppins";
 }
 .required{
   color: red;
@@ -40,12 +41,14 @@ h2{
 label, table{
   display: block;
   margin: 15px;
+  font-family: "Poppins";
 }
 label>span{
   float: left;
   width: 25%;
   margin-top: 12px;
   padding-right: 10px;
+  font-family: "Poppins";
 }
 input[type="text"], input[type="tel"], input[type="email"], select
 {
@@ -55,6 +58,7 @@ input[type="text"], input[type="tel"], input[type="email"], select
   margin-bottom: 10px;
   border: 1px solid #dadada;
   color: #888;
+  font-family: "Poppins";
 }
 select{
   width: 72%;
@@ -75,14 +79,17 @@ table{
 th{
   border-bottom: 1px solid #dadada;
   padding: 10px 0;
+  font-family: "Poppins";
 }
 tr>td:nth-child(1){
   text-align: left;
   color: #2d2d2a;
+  font-family: "Poppins";
 }
 tr>td:nth-child(2){
   text-align: right;
   color: #52ad9c;
+  font-family: "Poppins";
 }
 td{
   border-bottom: 1px solid #dadada;
@@ -104,13 +111,9 @@ button{
   margin-top: 10px;
   padding: 10px;
   border: none;
-  border-radius: 30px;
-  background: #52ad9c;
-  color: #fff;
   font-size: 15px;
   font-weight: bold;
 }
 button:hover{
   cursor: pointer;
-  background: #428a7d;
 }
