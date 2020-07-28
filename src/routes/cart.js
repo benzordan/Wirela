@@ -74,3 +74,8 @@ async function handle_checkout(req, res) {
     }
 
 }
+
+  /* assign actions */
+$('.cart-quantity cart-column input').change(function(){
+    updateQuantity(this);
+});
