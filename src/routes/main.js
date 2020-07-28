@@ -28,7 +28,7 @@ export const products = [
 	{
 		product: "Apple IPhone X",
 		desc: "Latest innovation",
-		price: 1000,
+		price: 1000.50,
 	},
 	{
 		product: "Samsung X",
