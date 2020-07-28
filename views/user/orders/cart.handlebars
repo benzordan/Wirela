@@ -25,8 +25,7 @@
     &nbsp;&nbsp;
     &nbsp;&nbsp;
         <li class= "active" >
-            <a href = #productDetails" data-
-            toggle="tab"> Products </a>
+            Products
         </li>
         &nbsp;&nbsp;
         &nbsp;&nbsp;
@@ -42,6 +41,10 @@
         &nbsp;&nbsp;
         &nbsp;&nbsp;
         &nbsp;&nbsp;
+
+        <li class= "sizeDetailtab" >
+            Price ($sgd)
+        </li>
         &nbsp;&nbsp;
         &nbsp;&nbsp;
         &nbsp;&nbsp;
@@ -73,8 +76,7 @@
         &nbsp;&nbsp;
         &nbsp;&nbsp;
         <li class= "productReviewsTab" >
-            <a href = #productReviews" data-
-            toggle="tab">Quantity</a>
+            Total
         </li>
     </ul>
 
@@ -89,7 +91,7 @@
             <span class="cart-price cart-column">${{price}}</span>
             <div class="cart-quantity cart-column">
                 {{!-- Retrieve value here --}}
-                <input type="number" min="0">
+                <input type="number" value="1" min="1" step="any">
             
 
                 &nbsp;&nbsp;
@@ -101,6 +103,7 @@
                 
                 <button class="btn btn-danger" type="button" value="remove" <button onclick="alert('Item removed')">Remove</button>
             </div>
+            <span class="cart-total cart-column">${{price}}</span>
         </div>
     {{/each}}
     </div>
