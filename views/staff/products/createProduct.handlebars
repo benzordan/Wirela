@@ -2,10 +2,10 @@
 	<div class="card card-body">
 		{{#if (cmp_eq mode "create")}}
 		<h3>Create Product</h3>
-		<form action="/admin/create-product?_method=PUT" method="post" id="content-form" enctype="multipart/form-data">
+		<form action="/admin/product/create?_method=PUT" method="post" id="content-form" enctype="multipart/form-data">
 		{{else}}
 		<h3>Update Product</h3>
-		<form action="/admin/update-product/{{content.uuidProduct}}?_method=PATCH" method="post" id="content-form" enctype="multipart/form-data">
+		<form action="/admin/product/update/{{content.uuid}}?_method=PATCH" method="post" id="content-form" enctype="multipart/form-data">
 		{{/if}}		
 			<div class="form-group">
 				<label class="font-italic" for="name">Product Name</label>
@@ -36,9 +36,9 @@
 			<br>
 			<button id="btnSubmit" type="submit" class="btn btn-primary">Save</button>
 			{{#if (cmp_ne mode "create")}}
-			<a id="btnCancel" class="btn btn-primary" href="/admin/list-products">Cancel</a>
+			<a id="btnCancel" class="btn btn-primary" href="/admin/product/list">Cancel</a>
 			{{/if}}
-			<a class="btn btn-primary" href="/admin/list-products">Back</a>
+			<a class="btn btn-primary" href="/admin/products/list">Back</a>
 		</form>
 	</div>
 </div>

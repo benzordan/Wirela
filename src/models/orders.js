@@ -9,7 +9,6 @@ export class ModelOrder extends Model {
 
     static initialize(sequelize) {
         ModelOrder.init(ModelOrder._columns(), ModelOrder._table_options(sequelize));
-        
     }
 
     /** 

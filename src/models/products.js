@@ -26,7 +26,7 @@ export class ModelProduct extends Model {
 	 **/
 	static _columns() {
 			return {
-                "uuidProduct": {type: DataTypes.CHAR(36), primaryKey: true, defaultValue: DataTypes.UUIDV4},
+                "uuid": {type: DataTypes.CHAR(36), primaryKey: true, defaultValue: DataTypes.UUIDV4},
 				"name": { type: DataTypes.STRING(64), allowNull: false, },
 				"category": {type: DataTypes.STRING(32),allowNull: false},
 				"description": {type: DataTypes.STRING(4096), allowNull: false, defaultValue: "N.A"},
