@@ -1,10 +1,6 @@
 <div class="container">
     <div class="text-center">
         <h1 class="bagtotal mt-5">Your Cart <span id="totalprice"></span></h1>
-        {{!-- Redirect to payment page --}}
-        <a href="/cart/payment">
-            <button class="btn btn-primary mt-2">Checkout</button>
-        </a>
     </div>
 </div>
 
@@ -29,8 +25,7 @@
     &nbsp;&nbsp;
     &nbsp;&nbsp;
         <li class= "active" >
-            <a href = #productDetails" data-
-            toggle="tab"> Products </a>
+            Products
         </li>
         &nbsp;&nbsp;
         &nbsp;&nbsp;
@@ -43,6 +38,13 @@
         &nbsp;&nbsp;
         &nbsp;&nbsp;
         &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+
+        <li class= "sizeDetailtab" >
+            Price ($sgd)
+        </li>
         &nbsp;&nbsp;
         &nbsp;&nbsp;
         &nbsp;&nbsp;
@@ -73,12 +75,8 @@
         &nbsp;&nbsp;
         &nbsp;&nbsp;
         &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
         <li class= "productReviewsTab" >
-            <a href = #productReviews" data-
-            toggle="tab">Quantity</a>
+            Total
         </li>
     </ul>
 
@@ -93,17 +91,36 @@
             <span class="cart-price cart-column">${{price}}</span>
             <div class="cart-quantity cart-column">
                 {{!-- Retrieve value here --}}
-                <input type="number" min="0">
+                <input type="number" value="1" min="1" step="any">
             
 
                 &nbsp;&nbsp;
                 &nbsp;&nbsp;
-                <button class="btn btn-primary" type="button" value="add" onClick="add()"> Add</button>
+
+               
+
                 &nbsp;&nbsp;
-                <button class="btn btn-danger" type="button">Remove</button>
+                
+                <button class="btn btn-danger" type="button" value="remove" <button onclick="alert('Item removed')">Remove</button>
             </div>
+            <span class="cart-total cart-column">${{price}}</span>
         </div>
     {{/each}}
     </div>
 </div>
+{{!-- Redirect to payment page --}}
+<center>
+        <a href="/cart/payment">
+            <button class="btn btn-primary mt-2">Checkout</button>
+        </a>
+</center>
+ &nbsp;&nbsp;
+    &nbsp;&nbsp;
+    &nbsp;&nbsp;
+    &nbsp;&nbsp;
+    &nbsp;&nbsp;
+    &nbsp;&nbsp;
+    &nbsp;&nbsp;
+    &nbsp;&nbsp;
+    &nbsp;&nbsp;
 <script type = "text/javascript"></script>
