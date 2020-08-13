@@ -1,11 +1,6 @@
 // Added for better support of promises
 // import  'core-js/stable';
 // import  'regenerator-runtime/runtime';
-/**
- * 'require' is similar to import used in Java and Python. 
- * It brings in the libraries required to be used
- * in this JS file.
-**/
 import   Express                     from 'express'
 import   ExpressSession              from 'express-session'
 import   ExpressHandlebars           from 'express-handlebars'
@@ -24,29 +19,16 @@ import   { format_date }                       from './helpers/format-date'
 import   { multi_check }                       from './helpers/selection'
 import   { logic_helpers }                     from './helpers/compare'
 
-/**
- * Creates an Express server - Express is a web application framework for creating web applications
- * in Node JS.
-**/
 /** @type {Express.Express} */
 const app = Express();
-// Handlebars Middleware
-/*
-* 1. Handlebars is a front-end web templating engine that helps to create dynamic web pages using variables
-* from Node JS.
-*
-* 2. Node JS will look at Handlebars files under the views directory
-*
-* 3. 'defaultLayout' specifies the main.handlebars file under views/layouts as the main template
-*
-* */
+
 app.engine('handlebars', ExpressHandlebars({
 	handlebars: allowInsecurePrototypeAccess(Handlebars),
 	helpers   : Object.assign({
 		"format_date": format_date,
 		"multi_check": multi_check
 	}, logic_helpers()),
-	defaultLayout: 'main'  // Specify default template views/layout/main.handlebar 
+	defaultLayout: 'main'
 }));
 
 app.set('view engine', 'handlebars');
@@ -57,20 +39,16 @@ app.use(BodyParser.urlencoded({
 }));
 
 app.use(BodyParser.json());
-// Creates static folder for publicly accessible HTML, CSS and Javascript files
-// app.use(express.static(Path.join(__dirname, '../public')));
+
 app.use(Express.static("./public"));
 
-// Method override middleware to use other HTTP methods such as PUT and DELETE
 app.use(MethodOverride('_method'));
 
-// Enables session to be stored using browser's Cookie ID
 app.use(CookieParser());
 
-// To store session information. By default it is stored as a cookie on browser
 app.use(ExpressSession({
-	key              : 'vidjot_session',
-	secret           : 'tojiv',
+	key              : 'user_session',
+	secret           : 'resu',
 	resave           : false,
 	saveUninitialized: false,
 	store            : SessionStore
@@ -96,15 +74,8 @@ app.use(function (req, res, next) {
 	res.locals.user          = req.user || null;
 	next();
 });
+
 // Use Routes
-/*
-* Defines that any root URL with '/' that Node JS receives request from, for eg. http:   //localhost:5000/, will be handled by
-* mainRoute which was defined earlier to point to routes/main.js
-* */
-/**
- * Loads routes file main.js in routes directory. The main.js determines which function
- * will be called based on the HTTP request and URL.
-**/
 app.use('/',       require('./routes/main'));
 
 // Print the routes registered into the application

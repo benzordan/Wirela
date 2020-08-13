@@ -46,9 +46,7 @@ font-family: "Righteous", sans-serif;
 
 .error {
   text-align: center;
-  background-color: lightcoral;
-  border: 2px rgb(238, 119, 119) solid;
+  background-color: rgb(223, 0, 0);
   padding: 10px;
-  margin-top: 2px;
 }
 
