@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express'
 import { flash_message, FlashType  } from '../helpers/flash-messenger'
-import { ModelUser } from '../../build/models/users';
+import { ModelUser } from '../models/users';
 import { ModelProduct } from '../models/products';
 import { getPagination, getPagingData } from '../controller/paginationController';
 import { Op } from 'sequelize';
@@ -16,7 +16,9 @@ const router = Router({
  */
 router.get('/',      page_home);
 router.get('/about', page_about);
-router.get('/catalog', page_catalog);
+router.get('/catalog', page_catalog)
+router.get('/profile', page_profile)
+;
 /**
  * Subroutes 
  */
@@ -27,6 +29,32 @@ router.use('/cart', 	 require('./cart'));
 //	This route contains examples
 router.use('/examples',  require('./examples/examples'));
 module.exports = router;
+
+
+async function page_profile(req, res) {
+	try {
+		const content = await ModelUser.findOne({
+			// Find a product according to req.params["uuid"]
+			where: { "uuid": req.user.uuid},
+	});
+		if (content) {
+			return res.render('user/profile/userProfile', {
+				title: "wirela - my profile",
+				"content": content,
+			//	pageCSS: "/css/staff/proddesc.css"
+			});
+		}
+		else {
+			console.error(`Failed to retrieve user ${req.params["uuid"]}`);
+			console.error("error");
+			return res.status(410).end();
+		}
+	} catch (error) {
+		console.log("Internal server error")
+		console.error(error)
+		return res.status(500).end()
+	}
+}
 
 async function page_catalog(req, res) {
 	// Set pagination attributes
