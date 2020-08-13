@@ -1,6 +1,5 @@
 import { Sequelize, Model, DataTypes } from 'sequelize'
 import { ModelAttributes, InitOptions, UpdateOptions } from 'sequelize'
-import { Literal } from 'sequelize/types/lib/utils';
 /** 
  * @typedef {import('./structures').Product} Product 
 **/
@@ -27,11 +26,13 @@ export class ModelProduct extends Model {
 	 **/
 	static _columns() {
 			return {
-                "uuid_product": {type: DataTypes.CHAR(36), primaryKey: true, defaultValue: DataTypes.UUIDV4},
-                "name": { type: DataTypes.STRING(64), allowNull: false, },
-                "description": {type: DataTypes.STRING(4096), allowNull: false, defaultValue: "N.A"},
+                "uuidProduct": {type: DataTypes.CHAR(36), primaryKey: true, defaultValue: DataTypes.UUIDV4},
+				"name": { type: DataTypes.STRING(64), allowNull: false, },
+				"category": {type: DataTypes.STRING(32),allowNull: false},
+				"description": {type: DataTypes.STRING(4096), allowNull: false, defaultValue: "N.A"},
                 "quantity": { type: DataTypes.INTEGER(12), allowNull: false},
-				"price": { type:DataTypes.INTEGER(8), allowNull: false}
+				"price": { type:DataTypes.DECIMAL(10, 2), allowNull: false},
+				"urlImage": { type: DataTypes.STRING, allowNull: false, defaultValue: "/img/no-image.jpg"}
 		};
 	}
 

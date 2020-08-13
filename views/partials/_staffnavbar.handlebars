@@ -1,30 +1,77 @@
 <div class="sidebar">
-    <div class="button"></div>
-    <div class="sidebar-section sidebar-top">
-        <div class="sidebar-profile">
-            <div class="sidebar-profile-img"></div>
-            <div class="sidebar-profile-name">
-                Ben Zordan
+    <a href="#" class="brand">wirela</a>
+    <div class="sidebar-profile">
+        <div class="profile-info">
+            <div class="avatar-div"><img src="/uploads/avatar/women.png" alt="avatar" class="profile-element avatar"></div>
+            <div class="sidebar-profile-details">
+                <div class="sidebar-profile-name">
+                    <!-- Insert user's name -->
+                </div>
+                <div class="sidebar-profile-title">
+                    <!-- Insert user's role -->
+                </div>
             </div>
-            <div class="sidebar-profile-title">
-                Administrator
-            </div>
-            <div class="sidebar-profile-dropdown">
-                <ul>
-                    <li><a>Edit Profile</a></li>
-                    <li><a>Logout</a></li>
-                </ul>
-            </div>
+        </div>
+        <div class="sidebar-profile-dropdown">
+            <ul class="profile-dropdown list-unstyled">
+                <li class="sidebar-item"><a class="dropdown-link" href="#">Edit Profile</a></li>
+                <li class="sidebar-item"><a class="dropdown-link" href="/auth/logout">Logout</a></li>
+            </ul>
         </div>
     </div>
     <div class="sidebar-section sidebar-body">
-        <ul>
-            <li><a>Dashboard</a></li>
-            <li><a>Orders</a></li>
-            <li><a>Products</a></li>
-            {{!-- <li><a>Financial</a></li> --}}
-            <li><a>Users</a></li>
-        </ul>
+        <div class="section-title">Navigation</div>
+        <ul class="sidebar-main-nav list-unstyled">
+            <li class="sidebar-item">
+                <a class="sidebar-link" data-toggle="collapse" href="#product-dropdown">
+                    Products
+                </a>
+                <div id="product-dropdown" class="collapse panel-collapse">
+                    <div class="panel-body">
+                        <ul class="nav navbar-nav">
+                            <li class="sidebar-item">
+                                <a href="/admin/list-products?page=1" class="dropdown-link">
+                                    Inventory
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a href="/admin/create-product" class="dropdown-link">
+                                    Add Inventory
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </li><!-- sidebar-item product-->
+            <li class="sidebar-item">
+                <a class="sidebar-link" data-toggle="collapse" href="#order-dropdown">Order</a>
+                <div id="order-dropdown" class="collapse panel-collapse">
+                    <div class="panel-body">
+                        <ul class="nav navbar-nav">
+                            <li class="sidebar-item">
+                                <a href="/admin/list-orders" class="dropdown-link">
+                                    Order List
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div><!-- order dropdown -->
+            </li><!-- sidebar item order -->
+            <li class="sidebar-item">
+                <a class="sidebar-link" data-toggle="collapse" href="#member-dropdown">Members</a>
+                <div id="member-dropdown" class="collapse panel-collapse">
+                    <div class="panel-body">
+                        <ul class="nav navbar-nav">
+                            <li class="sidebar-item">
+                                <a href="/admin/..." class="dropdown-link">
+                                    Member List
+                                </a>
+                            </li>
+                        </ul>
+                    </div><!-- dropdown body -->
+                </div><!-- member dropdown -->
+            </li><!-- sidebar-item member -->
+        </ul><!-- sidebar-main-nav -->
     </div>
     <div class="sidebar-section sidebar-footer"></div>
 </div>

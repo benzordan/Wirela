@@ -31,6 +31,7 @@ import { IntegerDataType } from "sequelize/types";
 export interface Product {
 	uuid_product? : string;
 	name? : string;
+	category? : string;
 	description? : string;
 	quantity? : integer;
 	price? : integer;

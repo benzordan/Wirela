@@ -5,32 +5,17 @@ import { UserRole } from '../../build/models/users';
 import { products } from './main';
 
 const router = Router({
-	caseSensitive: false,   //	Ensure that /home vs /HOME does exactly the same thing
-	mergeParams  : false,   //	Cascade all parameters down to children routes.
-	strict       : false    //	Whether we should strictly differenciate "/home/" and "/home"
+	caseSensitive: false,
+	mergeParams  : false,
+	strict       : false
 });
 
-/**
- * =============
- * Cart Routes
- * =============
- * /cart
- * /cart/payment
- * /checkout (method)
- * /cart/thankyou
- */
-
-router.use("/", authorizer);
 router.get('/', page_default);
 router.get('/payment', page_payment);
 router.get('/thankyou', page_thankyou);
 router.put('/checkout', handle_checkout);
 
 module.exports = router;
-
-function authorizer(req, res, next) {
-    next();
-}
 
 function page_default(req, res) {
     res.render('user/orders/cart', {
@@ -59,7 +44,7 @@ function page_thankyou(req, res) {
 async function handle_checkout(req, res) {
     try {
         const new_order = await ModelOrder.create({
-            "orderId": orderId,
+            "uuid_order": uuid_order,
             "orderDate": orderDate,
             
         });

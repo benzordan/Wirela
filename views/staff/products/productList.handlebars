@@ -1,28 +1,29 @@
-<div class="container">
-    {{#if products}}
-    <div class="row">
-        {{#each products}}
-        <div class="col-md-6 col-lg-3">
-            <div class="productimg mt-5 mb-2"></div>
-            <h2>{{name}}</h2>
-            <h4>{{desc}}</h4>
-            <h4>{{quantity}}</h4>
-            <h4>{{price}}</h4>
-            <div class="col-sm-12 col-md-12 col-lg-2">
-                <p class="font-italic"></p>
-                <a href="/admin/update/{{uuid}}" class="card-link">
-                    <i class="fas fa-pencil-alt"></i>
-                    Edit
-                </a>
-                <form method="POST" action="/admin/delete/{{uuid}}?_method=DELETE" id="toggle-delete-{{uuid}}">
-                    <a href="javascript:;" class="card-link btn-delete" onclick="if (confirm('Confirm delete?')) parentNode.submit();" data-title="Confirm delete?">
-                        <i class="far fa-trash-alt"></i>
-                        Delete
-                    </a>
-                </form>
-            </div>
-        </div>
-        {{/each}}
+<div class="text-center"><h1 class="page-header">Products</h1></div>
+<div class="container-fluid">
+    <p>Showing results:{{numOfProducts}} of {{totalItems}}</p>
+    <div class="search-form">
+        <form action="/admin/list-products">
+            <label for="search">Search</label>
+            <input name="search" class="search form-control" type="text" placeholder="Search by name..." aria-label="Search">   
+        </form> 
     </div>
-    {{/if}}
+    <form action="/admin/download"> 
+        <button type="submit" class="mb-4 btn btn-primary">Download product list</button>
+    </form>  
+    {{#each products}}
+    <div class="product">
+        <div class="product-img-div"><img class="product-img" src="{{urlImage}}"></div>
+        <div class="product-details">
+            <div class="product-category">{{category}}</div>
+            <div class="product-name">{{name}}</div>
+            <div class="product-description">{{description}}</div>
+            <div class="product-quantity">Quantity: {{quantity}}</div>
+            <div class="product-price">Price: ${{price}}</div>
+            <a href="/admin/list-products/{{uuidProduct}}" class="card-link">
+            <i class="fas fa-pencil-alt"></i>
+                View Details
+            </a>
+        </div>
+    </div>
+    {{/each}}
 </div>

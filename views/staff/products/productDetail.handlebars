@@ -1,0 +1,20 @@
+<a class="btn btn-primary" href="/admin/list-products">Back</a>
+<div class="container">
+    <div class="product-img-div"><img class="product-img" src="{{content.urlImage}}"></div>
+    <div class="product-details">
+        <div class="product-name">{{content.name}}</div>
+        <div class="product-category">{{content.category}}</div>
+        <div class="product-description">{{content.description}}</div>
+        <div class="product-price">{{content.price}}</div>
+        <a href="/admin/update-product/{{content.uuidProduct}}" class="card-link">
+        <i class="fas fa-pencil-alt"></i>
+            Edit
+        </a>
+        <form method="POST" action="/admin/delete/{{content.uuidProduct}}?_method=DELETE" id="toggle-delete-{{content.uuidProduct}}">
+            <a href="javascript:;" class="card-link btn-delete" onclick="if (confirm('Confirm delete?')) parentNode.submit();" data-title="Confirm delete?">
+                <i class="far fa-trash-alt"></i>
+                Delete
+            </a>
+        </form>
+    </div>
+</div>

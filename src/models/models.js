@@ -8,7 +8,7 @@ import { ModelProduct } from './products'
 
 import { sha256 }                  from 'hash.js'
 import { Sequelize, SyncOptions, SequelizeScopeError }  from 'sequelize'
-
+import {productlist} from './productlist';
 
 /**
  * This function initialize models and their relationships for ORM
@@ -26,7 +26,7 @@ export function initialize_models(sequelize) {
 		//	Create relations between models or tables
 		//	Setup foreign keys, indexes etc
 		ModelUser.hasMany(ModelOrder, { foreignKey: { name: "uuid_user"} });
-		ModelOrder.hasMany(ModelProduct, { foreignKey: { name: "uuid_order"} });
+		// ModelOrder.hasMany(ModelProduct, { foreignKey: { name: "uuid_order"} });
 			
 		console.log("Adding intitialization hooks");
 		//	Run once hooks during initialization
@@ -55,7 +55,7 @@ async function generate_root_account(sequelize, options) {
 		 */
 		const root_parameters = {	
 			uuid_user : "00000000-0000-0000-0000-000000000000",
-			name    : "root",
+			name    : "Ben Zordan",
 			email   : "root@mail.com",
 			role    : "admin",
 			password: sha256().update("P@ssw0rd").digest("hex")
@@ -90,18 +90,19 @@ async function generate_products(sequelize, options) {
 		 * 
 		 * @type {Array<import('./products').Products>}
 		 */
-		const parameters = [];
-		for (var i = 0; i < 50; i++ ) {
-			parameters.push({
-				name: `Product ${i.toString()}`,
-				desc: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed justo.`,
-				quantity: 50,
-				price: 20 + i
-			});
-		}
+		// const parameters = [];
+		// for (var i = 0; i < 20; i++ ) {
+		// 	parameters.push({
+		// 		name: `Product ${i.toString()}`,
+		// 		category: "Top",
+		// 		description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit sed justo.`,
+		// 		quantity: 10,
+		// 		price: 20 + i
+		// 	});
+		// }
 		//	Clear all products
 		const rows_deleted = await ModelProduct.destroy({ where: { } });
-		const list_products = await ModelProduct.bulkCreate(parameters);
+		const list_products = await ModelProduct.bulkCreate(productlist);
 		console.log(`Deleted ${rows_deleted} dummy product data`);
 		console.log(`Inserted ${list_products.length}`);
 		return Promise.resolve();

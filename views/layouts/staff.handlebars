@@ -44,21 +44,19 @@
 	<script src="/js/main.js"></script>
 	
 	<!-- javacript css -->
+	<script src="/js/staff/staff.js"></script>
 	<script src="{{pageJS}}" async></script>
-	
-
 	<title>{{title}}</title>
 </head>
 
 <body>
 	<div class="wrapper">
 	{{> _staffnavbar}}
-	{{> _messenger}}
-	{{> _msg}}
-	{{> _errors}}
-	<div class="page-wrapper">
-	{{{ body }}}
-	</div>
+		<div class="page-wrapper">
+		{{>_messenger}}
+		{{> _errors}}
+		{{{ body }}}
+		</div>
 	</div>
 </body>
 </html>

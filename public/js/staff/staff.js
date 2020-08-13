@@ -1,11 +1,6 @@
 $(document).ready(function () {
-
-    $("#sidebar").mCustomScrollbar({
-         theme: "minimal"
+    // slide toggle 
+    $(".sidebar-profile").click(function() {
+        $(".sidebar-profile-dropdown").slideToggle();
     });
-
-    $('#sidebarCollapse').on('click', function () {
-        $('#sidebar').toggleClass('active');
-    });
-
 });
