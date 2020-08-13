@@ -1,5 +1,5 @@
 import { Router, Request, Response, NextFunction } from 'express'
-import { UserRole, ModelOrder, ModelProduct  } from '../../models/models';
+import { UserRole, ModelOrder, ModelProduct, ModelUser } from '../../models/models';
 import { flash_message, FlashType  } from '../../helpers/flash-messenger';
 import  productController from '../../controller/productController';
 import { getPagination, getPagingData } from '../../controller/paginationController';
@@ -45,6 +45,7 @@ router.use('/services',          authorizer, require("./services/services"));
 // Admin Order Routes
 router.get('/orders', page_order_list)
 router.get('/orders/:orderId', page_order_item)
+router.get('/invoice', page_invoice)
 module.exports = router;
 
 /**
@@ -121,6 +122,29 @@ async function page_order_item(req, res) {
 		console.error(`Failed to retrieve order ${req.params["orderId"]}`);
 		console.error(error);
 		return res.status(500).end();
+	}
+}
+async function page_invoice(req, res) {
+	try {
+		const content = await ModelUser.findOne({
+			// Find a product according to req.params["uuid"]
+	});
+		if (content) {
+			return res.render('staff/orders/invoice', {
+				title: "wirela staff: invoice",
+				layout: "staff",
+				"content": content,
+			});
+		}
+		else {
+			console.error(`Failed to retrieve product ${req.params["uuidProduct"]}`);
+			console.error("error");
+			return res.status(410).end();
+		}
+	} catch (error) {
+		console.log("Internal server error")
+		console.error(error)
+		return res.status(500).end()
 	}
 }
 
