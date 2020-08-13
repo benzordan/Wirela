@@ -28,7 +28,6 @@ export function initialize_models(sequelize) {
 	try {
 		//	Initialize models
 		ModelUser .initialize(sequelize);
-		ModelVideo.initialize(sequelize);
 		ModelOrder.initialize(sequelize);
 
 		console.log("Building ORM model relations and indices");
