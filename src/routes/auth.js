@@ -138,7 +138,7 @@ function handle_login_submit(request, response, next) {
 	console.log(request.body);
 
 	return Passport.authenticate('local', {
-		successRedirect: '/admin/create-product',
+		successRedirect: '/admin/product/list',
 		failureRedirect: '/auth/login',
 		failureFlash   : true
 	})(request, response, next);
