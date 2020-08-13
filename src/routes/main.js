@@ -1,27 +1,14 @@
 import { Router, Request, Response } from 'express'
 import { flash_message, FlashType  } from '../helpers/flash-messenger'
 import { ModelUser } from '../../build/models/users';
+import { ModelProduct } from '../models/products';
+import { getPagination, getPagingData } from '../controller/paginationController';
+import { Op } from 'sequelize';
 
-
-// import flash_message from "../helpers/messenger"
-
-//	Either of these 3 patterns
-// const alertMessage = require(".....");
-// import alertMessage from '....'
-// import { flash_message, FlashType  } from '../helpers/FlashMessenger'
-
-//	A definition or declaration
-// const xxxx = something;	
-// console.log(xxxx);	//	undefined
-
-/**
- * Configure router parameters
- * @see "http://expressjs.com/en/5x/api.html#express.router"
- */
 const router = Router({
-	caseSensitive: false,   //	Ensure that /home vs /HOME does exactly the same thing
-	mergeParams  : false,   //	Cascade all parameters down to children routes.
-	strict       : false    //	Whether we should strictly differenciate "/home/" and "/home"
+	caseSensitive: false,
+	mergeParams  : false,
+	strict       : false
 });
 
 export const products = [
@@ -49,13 +36,13 @@ export const products = [
 ];
 
 /**
- * Your base routes
+ * Base routes
  */
 router.get('/',      page_home);
 router.get('/about', page_about);
 router.get('/catalog', page_catalog);
 /**
- * Subroutes to be added here
+ * Subroutes 
  */
 router.use('/auth',      require('./auth'));
 router.use('/video',     require('./video'));
@@ -65,11 +52,48 @@ router.use('/cart', 	 require('./cart'));
 router.use('/examples',  require('./examples/examples'));
 module.exports = router;
 
-function page_catalog(req, res) {
-	res.render('catalog', {
-		products: products,
-		"pageCSS": "/css/user/catalog.css"
-	})
+async function page_catalog(req, res) {
+	// Set pagination attributes
+	var size = 10;
+	const { page, search } = req.query;
+	console.log(search)
+	const { limit, offset } = getPagination(page, size)
+	try {
+		const products = await ModelProduct.findAndCountAll({limit:limit, offset:offset})
+		var totalProduct = await ModelProduct.count()
+		var data = getPagingData(products, page, limit)
+		// If there is a search query, find the product that user searched for
+		if (search) {
+			const foundProducts = await ModelProduct.findAndCountAll({
+				where: {
+					name: {
+						[Op.like]: '%' + search + '%'
+					}
+				},
+				limit: limit,
+				offset: offset
+			})
+			var data = getPagingData(foundProducts, page, limit);
+			console.log("size: ", data.productCount)
+			console.log("total items: ", totalProduct)
+			console.log("total pages: ", data.totalPages);
+			console.log("current page: ", data.currentPage);
+		}
+		return res.render('catalog', {
+			title: "wirela: catalog",
+			products: data.products,
+			numOfProducts: data.productCount,
+			totalItems: totalProduct,
+			currentPage: data.currentPage,
+			totalPages: data.totalPages,
+			"pageCSS": "/css/user/catalog.css",
+			"pageJS": "/js/catalog.js"
+		})
+	} catch (error) {
+		console.error("Failed to retrieve products from database");
+		console.error(error);
+		return res.status(500).end();
+	}
 }
 
 /**

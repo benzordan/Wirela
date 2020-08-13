@@ -81,7 +81,9 @@ async function handle_checkout(req, res) {
 }
 
 var fadeTime = 300;
-
+document.addEventListener('change',function(event){
+    updateQuantity(this);
+});
 /* assign actions */
 $('.cart-quantity').change(function(){
     updateQuantity(this);
