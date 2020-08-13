@@ -17,6 +17,7 @@ import {productlist} from './productlist';
 export function initialize_models(sequelize) {
 	console.log("Intitializing ORM models");
 	try {
+		//	Initialize models
 		ModelUser.initialize(sequelize);
 		ModelOrder.initialize(sequelize);
 		ModelProduct.initialize(sequelize);
@@ -25,7 +26,7 @@ export function initialize_models(sequelize) {
 
 		//	Create relations between models or tables
 		//	Setup foreign keys, indexes etc
-		ModelUser.hasMany(ModelOrder, { foreignKey: { name: "uuid_user"} });
+		ModelUser.hasMany(ModelOrder, { foreignKey: { name: "uuid"} });
 		// ModelOrder.hasMany(ModelProduct, { foreignKey: { name: "uuid_order"} });
 			
 		console.log("Adding intitialization hooks");
@@ -54,14 +55,14 @@ async function generate_root_account(sequelize, options) {
 		 * @type {import('./users').User}
 		 */
 		const root_parameters = {	
-			uuid_user : "00000000-0000-0000-0000-000000000000",
+			uuid : "00000000-0000-0000-0000-000000000000",
 			name    : "Ben Zordan",
 			email   : "root@mail.com",
 			role    : "admin",
 			password: sha256().update("P@ssw0rd").digest("hex")
 		};
 		//	Find for existing account with the same id, create or update
-		var account = await ModelUser.findOne({where: { "uuid_user": root_parameters.uuid_user }});
+		var account = await ModelUser.findOne({where: { "uuid": root_parameters.uuid }});
 		
 		account = await ((account) ? account.update(root_parameters): ModelUser.create(root_parameters));
 		

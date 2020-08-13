@@ -24,6 +24,7 @@ module.exports = router;
  * @param {NextFunction} next 
  */
 
+
 // Modify the authorizer so that it checks if the user role is a staff
 function authorizer(request, response, next) {
 	if (request.user.role === UserRole.Admin)
@@ -39,6 +40,11 @@ function authorizer(request, response, next) {
  * @param {Request} request Incoming HTTP Request
  * @param {Response} response Outgoing HTTP 
  */
+
+
+async function page_order_item(req, res)
+
+
 async function page_order_list(req, res) {
 	try {
 		const orders = await ModelOrder.findAll({
