@@ -86,20 +86,6 @@ async function generate_products(sequelize, options) {
 	try {
 		sequelize.removeHook("afterBulkSync", generate_products.name);
 		console.log("Generating product items");
-		/**
-		 * 
-		 * @type {Array<import('./products').Products>}
-		 */
-		// const parameters = [];
-		// for (var i = 0; i < 20; i++ ) {
-		// 	parameters.push({
-		// 		name: `Product ${i.toString()}`,
-		// 		category: "Top",
-		// 		description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit sed justo.`,
-		// 		quantity: 10,
-		// 		price: 20 + i
-		// 	});
-		// }
 		//	Clear all products
 		const rows_deleted = await ModelProduct.destroy({ where: { } });
 		const list_products = await ModelProduct.bulkCreate(productlist);

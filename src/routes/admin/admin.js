@@ -5,11 +5,17 @@ import  productController from '../../controller/productController';
 import { getPagination, getPagingData } from '../../controller/paginationController';
 import { upload, remove_file, imageUrl} from '../../helpers/imageUpload';
 import { Op } from 'sequelize';
+import { UserRole } from '../../../build/models/users';
+import { ModelOrder } from '../../models/orders';
 
+/**
+ * Configure router parameters
+ * @see "http://expressjs.com/en/5x/api.html#express.router"
+ */
 const router = Router({
 	caseSensitive: false,   //	Ensure that /home vs /HOME does exactly the same thing
 	mergeParams  : false,   //	Cascade all parameters down to children routes.
-	strict       : false   
+	strict       : false    //	Whether we should strictly differenciate "/home/" and "/home"
 });
 
 // Admin Product Routes
@@ -25,10 +31,23 @@ router.get('/download', productController.download);
 router.get('/update-product/:uuidProduct', page_update_product);
 router.patch('/update-product/:uuidProduct', upload.single("productUpload"),handle_update_product);
 router.delete("/delete/:uuidProduct", handle_delete_product);
+/**
+ * 
+ * ==================
+ * Admin Order Routes
+ * ==================
+ * /admin/orders
+ * /admin/orders/:orderId
+ * ===================
+ */
+
+router.use('/services',          authorizer, require("./services/services"));
+router.get('/manage-products',   authorizer, page_manage_products);
+router.get("/manage-users",      authorizer, page_manage_users);
 
 // Admin Order Routes
-router.get('/list-orders', page_order_list);
-router.get('/orders/:orderId', page_order_item);
+router.get('/orders', page_order_list)
+router.get('/orders/:orderId', page_order_item)
 module.exports = router;
 
 /**
@@ -50,7 +69,6 @@ function authorizer(request, response, next) {
 // findAll params
 // res.render() params
 /**
- * This function displays the list of orders that are stored in the database
  * @param {Request} request Incoming HTTP Request
  * @param {Response} response Outgoing HTTP 
  */
@@ -77,24 +95,21 @@ async function page_order_list(req, res) {
 // /admin/order/:orderId
 // res.render() params
 /**
- * This function retrieves the individual order that are stored in the database
  * @param {Request} request 
  * @param {Response} response 
  */
 async function page_order_item(req, res) {
-
 	try {
 		const order = ModelOrder.findOne({
-			where: {"uuid-order": req.params["uuid-order"]}
+			where: {"orderId": req.params["orderId"]}
 		});
 		if (order) {
 			return res.render('staff/orders/indvOrder', {
-				layout: "staff",
 				order: order
 			})
 		}
 		else {
-			console.error(`Failed to retrieve order ${req.params["orderId"]}`);
+			console.error(`Failed to retrieve video ${req.params["orderId"]}`);
 			console.error(error);
 			return res.status(410).end()
 		}

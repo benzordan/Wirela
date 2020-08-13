@@ -29,10 +29,6 @@ function validateForm() {
       <input type="text" name="lname">
     </label>
     <label>
-      <span>Company Name (Optional)</span>
-      <input type="text" name="cn">
-    </label>
-    <label>
       <span>Country <span class="required">*</span></span>
       <select name="selection">
         <option value="select">Select a country...</option>
@@ -300,10 +296,6 @@ function validateForm() {
       <input type="text" name="city"> 
     </label>
     <label>
-      <span>State / County <span class="required">*</span></span>
-      <input type="text" name="city"> 
-    </label>
-    <label>
       <span>Postcode / ZIP <span class="required">*</span></span>
       <input type="text" name="city"> 
     </label>
@@ -334,23 +326,16 @@ function validateForm() {
         <td>Free shipping</td>
       </tr>
     </table><br>
-    <div>
-      <input type="radio" name="dbt" value="dbt" checked> Direct Bank Transfer
-    </div>
-    <p>
-        Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.
-    </p>
-    <div>
-      <input type="radio" name="dbt" value="cd"> Cash on Delivery
-    </div>
-    <div>
-      <input type="radio" name="dbt" value="cd"> Paypal <span>
-      <img src="https://www.logolynx.com/images/logolynx/c3/c36093ca9fb6c250f74d319550acac4d.jpeg" alt="" width="50">
-      </span>
-    </div>
 
     <form name="myForm" action="/action_page.php" onsubmit="return validateForm()" method="post" required>
-    <button type="button" onclick="placeOrder()">Place Order</button>
+    &nbsp;&nbsp;
+    &nbsp;&nbsp;
+    &nbsp;&nbsp;
+    &nbsp;&nbsp;
+    <p style="font-family: Poppins;color:black; padding-right: 22px;">PAY USING</p>
+    <button onclick="placeOrder()">
+      <div id="paypal-button-container" type="button"></div>
+    </button>
     </form>
   </div><!-- Yorder -->
  </div>
@@ -364,22 +349,19 @@ function validateForm() {
 
 <script src="https://www.paypal.com/sdk/js?client-id=AfoA19isLSYjyh56dTvTfBcPOiZ75Sb4xSNAIl5Yd4Y38OYbhwXLaTrni-AlqaIgD9XEPwf2wyk8LmKT"></script>
 
-<div id="paypal-button-container" style="padding-left:400px;padding-top:80px;"></div>
+
 
 <script>
   
   function placeOrder() {
     //alert(1);
-  var x = document.forms["orderForm"]["fname"].value;
-  if (x == "") {
+    var x = document.forms["orderForm"]["fname"].value;
+    if (x == "") {
     alert("Please fill in all the boxes!");
     return false;
   }
-  
   }
-
-
-  paypal.Buttons({
+paypal.Buttons({
     createOrder: function(data, actions) {
       // This function sets up the details of the transaction, including the amount and line item details.
       return actions.order.create({
@@ -395,9 +377,13 @@ function validateForm() {
       // This function captures the funds from the transaction.
       return actions.order.capture().then(function(details) {
         // This function shows a transaction success message to your buyer.
-        window.alert('Transaction completed by ' + details.payer.name.given_name + ', thank you for your purchase!');
+      if(alert('Transaction completed by ' + details.payer.name.given_name + ', thank you for your purchase!')){
+        location.href = "localhost:5000"
+      }
       });
     }
   }).render('#paypal-button-container');
+
+  
 </script>
 </body>
