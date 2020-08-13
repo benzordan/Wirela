@@ -5,8 +5,6 @@ import  productController from '../../controller/productController';
 import { getPagination, getPagingData } from '../../controller/paginationController';
 import { upload, remove_file, imageUrl} from '../../helpers/imageUpload';
 import { Op } from 'sequelize';
-import { UserRole } from '../../../build/models/users';
-import { ModelOrder } from '../../models/orders';
 
 /**
  * Configure router parameters
@@ -42,8 +40,7 @@ router.delete("/delete/:uuidProduct", handle_delete_product);
  */
 
 router.use('/services',          authorizer, require("./services/services"));
-router.get('/manage-products',   authorizer, page_manage_products);
-router.get("/manage-users",      authorizer, page_manage_users);
+
 
 // Admin Order Routes
 router.get('/orders', page_order_list)
@@ -56,6 +53,7 @@ module.exports = router;
  * @param {Response} response 
  * @param {NextFunction} next 
  */
+
 
 // Modify the authorizer so that it checks if the user role is a staff
 function authorizer(request, response, next) {
@@ -72,6 +70,11 @@ function authorizer(request, response, next) {
  * @param {Request} request Incoming HTTP Request
  * @param {Response} response Outgoing HTTP 
  */
+
+
+async function page_order_item(req, res)
+
+
 async function page_order_list(req, res) {
 	try {
 		const orders = await ModelOrder.findAll({
