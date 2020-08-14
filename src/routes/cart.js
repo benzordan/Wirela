@@ -28,6 +28,11 @@ router.put('/checkout', handle_checkout);
 
 module.exports = router;
 
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
+const { window } = new JSDOM('<html></html>');
+var $ = require('jquery')(window);
+
 function authorizer(req, res, next) {
     next();
 }
@@ -76,24 +81,31 @@ async function handle_checkout(req, res) {
 }
 
 var fadeTime = 300;
+// document.addEventListener('change',function(event){
+//     updateQuantity(this);
+// });
+/* assign actions */
+$('.cart-quantity').change(function(){
+    updateQuantity(this);
+});
 
 
 /* reculculate cart */
 function recalculatecart(){
     var subtotal = 0;  
-}
+};
 
 /* update quantity */
 function updateQuantity(quantityInput)
 {
     /* calculate line price */
     var productRow = $(quantityInput).parent().parent();
-    var price = parseFloat(productRow.children('.cart-price cart-column').text());
+    var price = parseFloat(productRow.children('.cart-price').text());
     var quantity = $(quantityInput).val();
     var lineprice = price * quantity;
 
     /*update line price display and recalc cart totals */
-    productRow.children('.cart-total cart-column').each(function(){
+    productRow.children('.cart-total').each(function(){
         $(this).fadeout(fadeTime, function(){
             $(this).text(lineprice.toFixed(2));
             recalculatecart();
