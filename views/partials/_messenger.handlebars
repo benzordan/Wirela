@@ -1,6 +1,6 @@
 {{#if flashMessenger}}
 	{{#each flashMessenger.alertsBeforeFlush}}
-	<div class="text-center alert alert-{{this.type}} {{#if this.canBeDismissed}}alert-dismissible{{/if}} z-index:9999">
+	<div class="alert alert-{{this.type}} {{#if this.canBeDismissed}}alert-dismissible{{/if}} z-index:9999">
 		{{#if this.canBeDismissed}}
 		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 		{{/if}}

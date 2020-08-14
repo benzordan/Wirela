@@ -1,29 +1,11 @@
 <div class="container">
-    <div class="page-header">
-        <h1>Shop</h1>
-        <div class="search-form mb-3">
-            <form action="/catalog">
-                <label for="search">Search</label>
-                <input name="search" class="search form-control" type="text" placeholder="Search by name..." aria-label="Search">   
-            </form> 
+    <div class="row">
+        {{#each products}}
+        <div class="col-md-6 col-lg-3">
+            <div class="productimg mt-5 mb-2"></div>
+            <h2>{{products}}</h2>
+            <h4>{{desc}}</h4>
         </div>
-        <button id="filter" class="btn btn-primary">Filter</button>
-        <div class="filter-menu">
-            <a href="#" class="filter-item nameAsc">Name: A to Z</a>
-            <a href="#" class="filter-item nameDes">Name: Z to A</a>
-            {{!-- <a href="#" class="filter-item priceAsc">Price: Low to High</a>
-            <a href="#" class="filter-item priceDes">Price: High to Low</a> --}}
-        </div>
-        <span class="ml-3">Showing results:{{numOfProducts}} of {{totalItems}}</span>
-    </div>
-    <div class="product-list">
-    {{#each products}}
-        <div class="product">
-            <div class="product-img-div"><img class="product-img" src="{{urlImage}}"></div>
-            <div class="product-category">{{category}}</div>
-            <div class="product-name">{{name}}</div>
-            <div class="product-price" data-price="{{price}}">${{price}}</div>
-        </div>
-    {{/each}}
+        {{/each}}
     </div>
 </div>

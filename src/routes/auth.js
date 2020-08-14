@@ -27,7 +27,7 @@ function handle_logout(request, response) {
 }
 
 /**
- * Displays the page for registration
+ * Displays the page for registeration
  * @param {Request} request 
  * @param {Response} response 
  */
@@ -138,7 +138,7 @@ function handle_login_submit(request, response, next) {
 	console.log(request.body);
 
 	return Passport.authenticate('local', {
-		successRedirect: '/admin/product/list',
+		successRedirect: '/video/list',
 		failureRedirect: '/auth/login',
 		failureFlash   : true
 	})(request, response, next);
