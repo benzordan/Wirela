@@ -24,7 +24,7 @@
     &nbsp;&nbsp;
     &nbsp;&nbsp;
     &nbsp;&nbsp;
-        <li class= "active" >
+        <li class= "active" style="color:#1063F0";>
             Products
         </li>
         &nbsp;&nbsp;
@@ -41,23 +41,11 @@
         &nbsp;&nbsp;
         &nbsp;&nbsp;
         &nbsp;&nbsp;
-
-        <li class= "sizeDetailtab" >
-            Price ($sgd)
-        </li>
         &nbsp;&nbsp;
         &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        <li class= "sizeDetailtab" >
-            <a href = #sizeDetails" data-
-            toggle="tab">Price ($sgd)</a>
+        &nbsp;
+        <li class= "sizeDetailtab" style="color:#1063F0";>
+            Price ($SGD)
         </li>
         &nbsp;&nbsp;
         &nbsp;&nbsp;
@@ -71,11 +59,28 @@
         &nbsp;&nbsp;
         &nbsp;&nbsp;
         &nbsp;&nbsp;
+       <li class= "sizeDetailtab" style="color:#1063F0";>
+            Quantity
+        </li>
         &nbsp;&nbsp;
         &nbsp;&nbsp;
         &nbsp;&nbsp;
         &nbsp;&nbsp;
-        <li class= "productReviewsTab" >
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        <li class= "productReviewsTab" style="color:#1063F0";>
             Total
         </li>
     </ul>
@@ -91,7 +96,7 @@
             <span class="cart-price cart-column">${{price}}</span>
             <div class="cart-quantity cart-column">
                 {{!-- Retrieve value here --}}
-                <input type="number" value="1" min="1" step="any">
+                <input type="number" value="1" min="1" step="any"  >
             
 
                 &nbsp;&nbsp;
@@ -104,6 +109,7 @@
                 <button class="btn btn-danger" type="button" value="remove" <button onclick="alert('Item removed')">Remove</button>
             </div>
             <span class="cart-total cart-column">${{price}}</span>
+            
         </div>
     {{/each}}
     </div>

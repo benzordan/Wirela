@@ -77,6 +77,7 @@ async function handle_checkout(req, res) {
 
 var fadeTime = 300;
 
+
 /* reculculate cart */
 function recalculatecart(){
     var subtotal = 0;  
