@@ -8,7 +8,8 @@ import { ModelAttributes, InitOptions, UpdateOptions } from 'sequelize'
 export class ModelOrder extends Model {
 
     static initialize(sequelize) {
-        ModelOrder.init(ModelOrder._columns(), ModelOrder._table_options(sequelize));
+        ModelOrder.initialize(ModelOrder._columns()),
+        ModelOrder._table_options(sequelize);
     }
 
     /** 
@@ -18,13 +19,13 @@ export class ModelOrder extends Model {
      */
     static _columns() {
         return {
-            "orderID": { type: DataTypes.STRING(36), primaryKey: true, defaultValue: ""},
+            "orderID": { type: DataTypes.char(36), primaryKey: true, defaultValue: ""},
             "orderDate": { type: DataTypes.DATE(), allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')},
             "name": { type: DataTypes.STRING(), allowNull: false, defaultValue: ""},
             "address": { type: DataTypes.STRING(), allowNull: false, defaultValue: ""},
             "phone": {type: DataTypes.STRING(), allowNull: false, defaultValue: ""},
             "email": { type: DataTypes.STRING(), allowNull: false, defaultValue: ""},
-            "totalPrice": { type: DataTypes.STRING(), allowNull: false, defaultValue: ""}
+            "totalPrice": { type: DataTypes.char, allowNull: false, defaultValue: ""}
         }
     }
 

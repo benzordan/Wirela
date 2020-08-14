@@ -25,15 +25,18 @@
 }
 
 /**
- * This structure represents a product stored in the database
- */
-export interface Product {
-	uuid_product? : string;
-	name? : string;
-	category? : string;
-	description? : string;
-	quantity? : integer;
-	price? : integer;
+ * This structure represents a video stored in the database.
+**/
+ export interface Video {
+	uuid?          : string;
+	dateCreated?   : Date;
+	dateUpdated?   : Date;
+	dateReleased?  : Date;
+	title?         : string;
+	subtitle?      : string;
+	story?         : string;
+	language?      : string;
+	classification?: string;
 }
 /** 
  This structure represents an order stored in the database

@@ -1,13 +1,25 @@
 import { Router, Request, Response } from 'express'
 import { flash_message, FlashType  } from '../helpers/flash-messenger'
-import { ModelUser, ModelOrder } from '../models/models'
+import { ModelVideo, ModelUser, ModelOrder } from '../models/models'
 import { UserRole } from '../../build/models/users';
 
 const router = Router({
-	caseSensitive: false,
-	mergeParams  : false,
-	strict       : false
+	caseSensitive: false,   //	Ensure that /home vs /HOME does exactly the same thing
+	mergeParams  : false,   //	Cascade all parameters down to children routes.
+	strict       : false    //	Whether we should strictly differenciate "/home/" and "/home"
 });
+
+/** 
+ * 
+ * /profile
+ * 
+ * =================
+ *  Order List Routes
+ * ==================
+ * /profile/order
+ * /profile/order/:orderId
+ * 
+ */
 
 router.use('/', authorizer);
 router.get('/');
@@ -15,13 +27,14 @@ router.get('/order', page_order_list);
 router.get('/order/:orderId', page_order_item);
 
 /**
- * This function authorizes the user to enter their own profile page
+ * 
  * @param {Request} req 
  * @param {Response} res 
  */
 
+ // NICHOLAS set authorizer condition for user to enter profile pages
 function authorizer(req, res, next) {
-    if (req.user == UserRole.User) {
+    if (req.user == undefined) {
         // Item
     } 
     else {
@@ -30,7 +43,7 @@ function authorizer(req, res, next) {
 }
 
 /**
- * This function displays the list of orders created by the user
+ * Render order page
  * @param {Request} request Express request object
  * @param {Response} response Express response object
  */
@@ -54,7 +67,7 @@ async function page_order_list(req, res) {
 }
 
 /**
- * This function displays a page for each order
+ * 
  * @param {Request} request 
  * @param {Response} response 
  */
@@ -63,8 +76,8 @@ async function page_order_list(req, res) {
 // render params incomplete
 async function page_order_item(req, res) {
     try {
-        const order = await ModelOrder.findOne({
-            where: {"uuid_order": req.params["uuid_order"]}
+        const order = await ModelVideo.findOne({
+            where: {"orderId": req.params["orderId"]}
         });
         if (order) {
             return res.render('user/profile/indvOrder', {
@@ -73,7 +86,7 @@ async function page_order_item(req, res) {
         }
     }
     catch (error) {
-        console.error(`Failed to retrieve order ${req.params["uuid_order"]}`);
+        console.error(`Failed to retrieve order ${req.params["orderId"]}`);
         console.error(error);
         return res.status(500).end();
     }

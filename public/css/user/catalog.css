@@ -1,50 +1,16 @@
-.page-header {
-    margin-top: 30px;
-    padding: 20px 0px;
-}
-.filter-menu {
-    margin-top: 2px;
-    border-radius: 5px;
-    position: absolute;
-    background-color: #007bff;
-    padding: 10px;
-    visibility: hidden;
-}
-.filter-item {
-    display: block;
-    color: white;
-    padding: 5px
-}
-.filter-item:hover {
-    color: black;
-    text-decoration: none;
-}
-.product-img-div {
-    height: 300px;
-    width: 300px;
-    border-radius: 5px;
-}
-.product-img {
-    height: 100%;
-    width: 100%;
+.productimg {
+    min-height: 300px;
+    min-width: 200px;
+    background-image: url('../../img/keyboard.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
 }
-.product-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+
+@media only screen and (min-width: 768px) {
+    .productimg {
+        height: 300px;
+        width: 200px;
+    }
 }
-.product {
-    margin-bottom: 10px;
-}
-.product-category {
-    margin-top: 10px;
-}
-.product-name {
-    font-size: 20px;
-}
-.product-price {
-    margin-bottom: 20px;
-}
+

@@ -1,3 +1,10 @@
+
+///	Some convention suggestion
+
+///	Use first Caps with Imports, Class Names
+//	small letter / camelCase for variables
+//	underscores for functions
+
 import ExpressSessionSql     from 'express-mysql-session'
 import { Sequelize }         from 'sequelize'
 import { Config }            from './database-config'
@@ -62,12 +69,12 @@ export function initialize_database(drop = false) {
  * @param {boolean} drop True to drop all tables and re-create
  * @private
  */
-async function synchronize_database(drop) {
+ async function synchronize_database(drop) {
 	try {
 		await Database.sync({ force: drop });
 		console.log("Database is synchronized with ORM");
 		return Promise.resolve();
-	}
+	 }
 	catch(error) {
 		console.error("Database failed to synchronized with ORM");
 		console.error(error);
