@@ -1,0 +1,29 @@
+<div class="text-center"><h1 class="page-header">Products</h1></div>
+<div class="container-fluid">
+    <p>Showing results:{{numOfProducts}} of {{totalItems}}</p>
+    <div class="search-form">
+        <form action="/admin/product/list">
+            <label for="search">Search</label>
+            <input name="search" class="search form-control" type="text" placeholder="Search by name..." aria-label="Search">   
+        </form> 
+    </div>
+    <form action="/admin/product/download"> 
+        <button type="submit" class="mb-4 btn btn-primary">Download product list</button>
+    </form>  
+    {{#each products}}
+    <div class="product">
+        <div class="product-img-div"><img class="product-img" src="{{urlImage}}"></div>
+        <div class="product-details">
+            <div class="product-category">{{category}}</div>
+            <div class="product-name">{{name}}</div>
+            <div class="product-description">{{description}}</div>
+            <div class="product-quantity">Quantity: {{quantity}}</div>
+            <div class="product-price">Price: ${{price}}</div>
+            <a href="/admin/product/list/{{uuid}}" class="card-link">
+            <i class="fas fa-pencil-alt"></i>
+                View Details
+            </a>
+        </div>
+    </div>
+    {{/each}}
+</div>
