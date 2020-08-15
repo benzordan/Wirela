@@ -25,20 +25,6 @@
     &nbsp;&nbsp;
     &nbsp;&nbsp;
         <li class= "active" style="color:#1063F0";>
-            ID
-        </li>
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;
-        <li class= "sizeDetailtab" style="color:#1063F0";>
             Products
         </li>
         &nbsp;&nbsp;
@@ -51,7 +37,14 @@
         &nbsp;&nbsp;
         &nbsp;&nbsp;
         &nbsp;&nbsp;
-       <li class= "sizeDetailtab" style="color:#1063F0";>
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;
+        <li class= "sizeDetailtab" style="color:#1063F0";>
             Price ($SGD)
         </li>
         &nbsp;&nbsp;
@@ -66,10 +59,16 @@
         &nbsp;&nbsp;
         &nbsp;&nbsp;
         &nbsp;&nbsp;
-
-         <li class= "sizeDetailtab" style="color:#1063F0";>
+       <li class= "sizeDetailtab" style="color:#1063F0";>
             Quantity
         </li>
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
         &nbsp;&nbsp;
         &nbsp;&nbsp;
         &nbsp;&nbsp;
@@ -85,17 +84,6 @@
             Total
         </li>
     </ul>
-      
-    <div class="product-quantity">
-      <input type="number" value="1" min="1">
-    </div>
-    <div class="product-removal">
-        
-                <button class="btn btn-danger" type="button" value="remove" <button onclick="alert('Item removed')">Remove</button>
-            </div>
-
-
-
 
     <div class="cart-items">
 
@@ -108,8 +96,9 @@
             <span class="cart-price cart-column">${{price}}</span>
             <div class="cart-quantity cart-column">
                 {{!-- Retrieve value here --}}
-                <input type="number" value="1" min="1">
-        
+                <input type="number" value="1" min="1" step="any" >
+            
+
                 &nbsp;&nbsp;
                 &nbsp;&nbsp;
 
