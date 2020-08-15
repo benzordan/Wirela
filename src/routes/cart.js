@@ -26,6 +26,7 @@ router.get('/payment', page_payment);
 router.get('/thankyou', page_thankyou);
 router.put('/checkout', handle_checkout);
 
+
 module.exports = router;
 
 const jsdom = require("jsdom");
@@ -73,7 +74,7 @@ async function handle_checkout(req, res) {
     catch (error) {
         console.error("Failed to create order");
         console.error(error);
-        return res.render('user/orders/cart', {
+        return res.render('/cart', {
             "text": "Order Failed. Please try again"
         })
     }
