@@ -84,11 +84,16 @@ var fadeTime = 300;
 // document.addEventListener('change',function(event){
 //     updateQuantity(this);
 // });
-/* assign actions */
-$('.cart-quantity').change(function(){
-    updateQuantity(this);
-});
 
+/* Assign actions */
+$('.product-quantity input').change( function() {
+    updateQuantity(this);
+  });
+  
+  $('.product-removal button').click( function() {
+    removeItem(this);
+  });
+  
 
 /* reculculate cart */
 function recalculatecart(){
