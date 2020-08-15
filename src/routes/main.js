@@ -10,7 +10,29 @@ const router = Router({
 	mergeParams  : false,
 	strict       : false
 });
+export const products = [
+	{
+		product: "Apple IPhone X",
+		desc: "Latest innovation",
+		price: 1000.55,
+	},
+	{
+		product: "Samsung X",
+		desc: "Next generation camera feature",
+		price: 500.55,
+	},
+	{
+		product: "Oppo Xfinity",
+		desc: "Biggest screen",
+		price: 200.55,
+	},
+	{
+		product: "Lightning Cable",
+		desc: "The most overpriced product we have",
 
+		price: 4000.55,
+	},
+];
 /**
  * Base routes
  */
