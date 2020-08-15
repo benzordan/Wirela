@@ -47,7 +47,7 @@ router.get('/profile', page_profile)
 router.use('/auth',      require('./auth'));
 router.use('/video',     require('./video'));
 router.use('/admin',     require('./admin/admin'));
-router.use('/cart', 	 require('./cart'));
+router.use('/cart1', 	 require('./cart1'));
 //	This route contains examples
 router.use('/examples',  require('./examples/examples'));
 module.exports = router;

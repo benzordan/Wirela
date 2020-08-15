@@ -24,8 +24,11 @@
             <div class="product-name">{{name}}</div>
             <div class="product-price" data-price="{{price}}">${{price}}</div>
             {{!-- Add to cart button is here--}}
-            <div class="btn btn-primary" style="color:white; cursor:pointer;">Add to cart</div>
-        </div>
+             <a href= "/cart1">
+    <form action="/home" class="inline">
+ <div class="btn btn-primary" style="color:white; cursor:pointer;">Add to cart</div>
+       </a> </div>
+       
     {{/each}}
     </div>
 </div>

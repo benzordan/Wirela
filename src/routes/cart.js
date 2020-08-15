@@ -73,7 +73,7 @@ async function handle_checkout(req, res) {
     catch (error) {
         console.error("Failed to create order");
         console.error(error);
-        return res.render('user/orders/cart', {
+        return res.render('/cart1', {
             "text": "Order Failed. Please try again"
         })
     }
