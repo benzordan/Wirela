@@ -40,6 +40,7 @@ router.get('/',      page_home);
 router.get('/about', page_about);
 router.get('/catalog', page_catalog)
 router.get('/profile', page_profile)
+router.get('/cart', page_cart)
 ;
 /**
  * Subroutes 
@@ -47,7 +48,7 @@ router.get('/profile', page_profile)
 router.use('/auth',      require('./auth'));
 router.use('/video',     require('./video'));
 router.use('/admin',     require('./admin/admin'));
-router.use('/cart1', 	 require('./cart1'));
+router.use('/cart', 	 require('./cart'));
 //	This route contains examples
 router.use('/examples',  require('./examples/examples'));
 module.exports = router;
@@ -124,6 +125,52 @@ async function page_catalog(req, res) {
 	}
 }
 
+
+async function page_cart(req, res) {
+	// Set pagination attributes
+	var size = 10;
+	const { page, search } = req.query;
+	console.log(search)
+	const { limit, offset } = getPagination(page, size)
+	try {
+		const products = await ModelProduct.findAndCountAll({limit:limit, offset:offset})
+		var totalProduct = await ModelProduct.count()
+		var data = getPagingData(products, page, limit)
+		// If there is a search query, find the product that user searched for
+		if (search) {
+			const foundProducts = await ModelProduct.findAndCountAll({
+				where: {
+					name: {
+						[Op.like]: '%' + search + '%'
+					}
+				},
+				limit: limit,
+				offset: offset
+			})
+			var data = getPagingData(foundProducts, page, limit);
+			console.log("size: ", data.productCount)
+			console.log("total items: ", totalProduct)
+			console.log("total pages: ", data.totalPages);
+			console.log("current page: ", data.currentPage);
+		}
+		return res.render('cart', {
+			title: "wirela: catalog",
+			products: data.products,
+			numOfProducts: data.productCount,
+			totalItems: totalProduct,
+			currentPage: data.currentPage,
+			totalPages: data.totalPages,
+			"pageCSS": "/css/user/cart.css",
+			"pageJS": "/js/cart.js"
+		})
+	} catch (error) {
+		console.error("Failed to retrieve products from database");
+		console.error(error);
+		return res.status(500).end();
+	}
+}
+
+
 /**
  * Renders the home page
  * @param {Request}  req Express request  object
@@ -135,6 +182,8 @@ function page_home(req, res) {
 		"pageCSS": "/css/user/main.css"
 	});
 }
+
+
 
 /**
  * Renders the about page

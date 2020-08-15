@@ -24,10 +24,16 @@
             <div class="product-name">{{name}}</div>
             <div class="product-price" data-price="{{price}}">${{price}}</div>
             {{!-- Add to cart button is here--}}
-             <a href= "/cart1">
-    <form action="/home" class="inline">
- <div class="btn btn-primary" style="color:white; cursor:pointer;">Add to cart</div>
-       </a> </div>
+        
+ <div class="btn btn-primary" onclick = "myFunction()" style="color:white; cursor:pointer;">Add to cart</div>
+    
+    <script>
+function myFunction() {
+  alert("Item added to cart!");
+}
+</script>
+
+    </div>
        
     {{/each}}
     </div>
