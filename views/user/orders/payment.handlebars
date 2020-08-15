@@ -359,12 +359,11 @@ function validateForm() {
 			payment: {
 				transactions: [
 					{
-						amount: { total: '1.00', currency: 'USD' }
+						amount: { total: '10.00', currency: 'SGD' }
 					}
 				],
 				redirect_urls: {
 					return_url: '/thankyou',
-					cancel_url: 'localhost:5000'
 				}
 			}
 		});
@@ -377,14 +376,6 @@ function validateForm() {
 		);
 	}
 
-	function onError(error) {
-		console.error(error);
-	}
-
-	function onCancel(data, actions) {
-		actions.redirect();
-	}
-
 
 	paypal.Button.render({
 		env: 'sandbox',
@@ -393,8 +384,6 @@ function validateForm() {
 		},
 		payment:     onPayment,
 		onAuthorize: onAuthorized,
-		onCancel:    onCancel,
-		onError:     onError
 	}, '#paypal-button');
 </script>
 
