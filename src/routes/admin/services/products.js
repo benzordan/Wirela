@@ -1,5 +1,6 @@
 import { Router, Request, Response, NextFunction } from 'express'
-import { UserRole, ModelOrder, ModelProduct  } from '../../../models/models';
+import { ModelProduct  } from '../../../models/models';
+import { UserRole } from '../../../models/users'
 import { flash_message, FlashType  } from '../../../helpers/flash-messenger';
 import  productController from '../../../controller/productController';
 import { getPagination, getPagingData } from '../../../controller/paginationController';
@@ -13,18 +14,25 @@ const router = Router({
 });
 
 // Retrieve
-router.get('/list', page_list_products);
-router.get('/list/:uuid', page_list_productitem);
+router.get('/list', authorizer, page_list_products);
+router.get('/list/:uuid', authorizer, page_list_productitem);
 // Create
-router.get('/create', page_create_product);
-router.put('/create', upload.single("productUpload"), handle_create_product);
+router.get('/create', authorizer, page_create_product);
+router.put('/create', authorizer, upload.single("productUpload"), handle_create_product);
 router.get('/download', productController.download);
 // Update/Delete
-router.get('/update/:uuid', page_update_product);
-router.patch('/update/:uuid', upload.single("productUpload"),handle_update_product);
-router.delete("/delete/:uuid", handle_delete_product);
+router.get('/update/:uuid', authorizer, page_update_product);
+router.patch('/update/:uuid', authorizer, upload.single("productUpload"),handle_update_product);
+router.delete("/delete/:uuid", authorizer, handle_delete_product);
 
 module.exports = router;
+
+function authorizer(req, res, next) {
+	if (req.user.role === UserRole.Admin)
+		return next();
+	else
+		return res.status(403);
+}
 
 /**
  * This function displays the list of products stored in the database
@@ -86,7 +94,8 @@ async function page_list_productitem(req, res) {
 		const content = await ModelProduct.findOne({
 			// Find a product according to req.params["uuid"]
 			where: { "uuid": req.params["uuid"] },
-	});
+		});
+		// Render the product item
 		if (content) {
 			return res.render('staff/products/productDetail', {
 				title: "wirela staff: product detail",
@@ -130,16 +139,19 @@ function page_create_product(req, res) {
  */
 
 async function handle_create_product(req, res) {
-	console.log("Incoming request")
-	// Return a 400 error if no file is selected
-	if (req.file === undefined && req.body["productURL"] === undefined) {
-		return res.status(400).end()
+	var errors = []
+	var regex  = /^\d+(,\d{1,2})?$/
+
+	if (regex.test(req.body["quantity"])) {
+		errors.push({message: "Invalid quantity: Please enter valid characters"})
 	}
-	var errors = [];
+	if (regex.test(req.body["price"])) {
+		errors.push({message: "Invalid price: Please enter valid characters"})
+	}
 	if (errors.length > 0) {
-		res.render("staff/products/createProduct", {
+		return res.render("staff/products/createProduct", {
 			layout : "staff",
-			mode: "create",
+			mode: "update",
 			"errors": errors,
 			content : req.body
 		})
@@ -154,7 +166,8 @@ async function handle_create_product(req, res) {
 				"price"   : req.body["price"],
 				"urlImage": (req.file) ? `${imageUrl}/${req.file.filename}`: req.body["productURL"]
 			});
-			res.redirect("/admin/list-products")
+			flash_message(res, FlashType.Success, `${req.body.name} has been added`);
+			res.redirect("/admin/product/list")
 		}
 		catch (error) {
 			console.error("Unexpected error")
@@ -206,14 +219,26 @@ async function page_update_product(req, res) {
  */
 async function handle_update_product(req, res) {
 	console.log("Incoming update request")
-	// Add try and catch block to handle error (Not finished yet)
-	const errors = []
+	const content = await ModelProduct.findOne({
+		where: { 
+			"uuid": req.params["uuid"] 
+		},
+	});
+	var errors = []
+	var regex  = /(^(\+|\-)(0|([1-9][0-9]*))(\.[0-9]{1,2})?$)|(^(0{0,1}|([1-9][0-9]*))(\.[0-9]{1,2})?$) /
+	if (regex.test(req.body["quantity"])) {
+		errors.push({message: "Invalid quantity: Please enter valid characters"})
+	}
+	if (regex.test(req.body["price"])) {
+		errors.push({message: "Invalid price: Please enter valid characters"})
+	}
 	if (errors.length > 0) {
-		res.render("staff/products/createProduct", {
+		return res.render("staff/products/createProduct", {
 			layout : "staff",
-			mode: "create",
+			title: "wirela: update product",
+			mode: "update",
 			"errors": errors,
-			content : req.body
+			content : content
 		})
 	}
 	try {
@@ -224,9 +249,9 @@ async function handle_update_product(req, res) {
 		})
 		const replaceFile = (req.file)? true: false;
 		switch (contents.length) {
-			case 0      : return res.redirect(410, "/admin/list-products")
+			case 0      : return res.redirect(410, "/admin/product/list")
 			case 1      : break;
-				default: return res.redirect(409, "/admin/list-products")
+				default: return res.redirect(409, "/admin/product/list")
 		}
 		//	Ignore the uuid
 		delete req.body["uuid"];
@@ -253,11 +278,13 @@ async function handle_update_product(req, res) {
 
 		// If the user uploads a new image, remove the previous image
 		if (replaceFile) {
-			remove_file(previous_file);
+			if (previous_file !== `/img/no-image.jpg`) {
+				remove_file(previous_file);
+			}
 		}
 
-		flash_message(res, FlashType.Success, "Product updated");
-		return res.redirect(`/admin/list-products/${req.params["uuid"]}`);
+		flash_message(res, FlashType.Success, `Product ${req.params["uuid"]} updated`);
+		return res.redirect(`/admin/product/list/${req.params["uuid"]}`);
 	}
 	
 	catch (error) {
@@ -282,13 +309,14 @@ async function handle_update_product(req, res) {
 async function handle_delete_product(req, res) {
 	console.log("Incoming delete request");
 	try {
+		const product_uuid = req.body.uuid
 		// Remove the product with UUID of req.params["uuid"]
 		const affected = await ModelProduct.destroy({where: { "uuid": req.params["uuid"]}});
 		// If there is only 1 product being deleted, return a successful deletion
 		if (affected == 1) {
 			console.log(`Deleted product: ${req.params["uuid"]}`);
-			flash_message(res, FlashType.Success, "Product successfully deleted");
-			return res.redirect("/admin/list-products");
+			flash_message(res, FlashType.Info, `Product ${req.params["uuid"]} successfully deleted`);
+			return res.redirect("/admin/product/list");
 		}
 		// If there are more than 1 entries affected by the deletion, return 409 conflict error 
 		else {
