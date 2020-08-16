@@ -125,7 +125,7 @@ function updateQuantity(quantityInput)
 
 
 /* Remove item from cart */
-function removeItem(removeButton)
+function removeItem()
 {
   /* Remove row from DOM and recalc cart total */
   var productRow = $(removeButton).parent().parent();
