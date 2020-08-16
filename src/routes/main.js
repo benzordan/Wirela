@@ -5,6 +5,7 @@ import { ModelProduct } from '../models/products';
 import { getPagination, getPagingData } from '../controller/paginationController';
 import { Op } from 'sequelize';
 
+
 const router = Router({
 	caseSensitive: false,
 	mergeParams  : false,
@@ -51,6 +52,7 @@ router.use('/admin',     require('./admin/admin'));
 router.use('/cart', 	 require('./cart'));
 //	This route contains examples
 router.use('/examples',  require('./examples/examples'));
+
 module.exports = router;
 
 
@@ -131,12 +133,12 @@ async function page_cart(req, res) {
 	console.log(search)
 	const { limit, offset } = getPagination(page, size)
 	try {
-		const products = await ModelProduct.findAndCountAll({limit:limit, offset:offset})
-		var totalProduct = await ModelProduct.count()
-		var data = getPagingData(products, page, limit)
+		const carts = await ModelCart.findAndCountAll({limit:limit, offset:offset})
+		var totalCart = await ModelCart.count()
+		var data = getPagingData(carts, page, limit)
 		// If there is a search query, find the product that user searched for
 		if (search) {
-			const foundProducts = await ModelProduct.findAndCountAll({
+			const foundCarts = await ModelCart.findAndCountAll({
 				where: {
 					name: {
 						[Op.like]: '%' + search + '%'
@@ -145,17 +147,17 @@ async function page_cart(req, res) {
 				limit: limit,
 				offset: offset
 			})
-			var data = getPagingData(foundProducts, page, limit);
-			console.log("size: ", data.productCount)
-			console.log("total items: ", totalProduct)
+			var data = getPagingData(foundCarts, page, limit);
+			console.log("size: ", data.cartCount)
+			console.log("total items: ", totalCart)
 			console.log("total pages: ", data.totalPages);
 			console.log("current page: ", data.currentPage);
 		}
 		return res.render('cart', {
 			title: "wirela: catalog",
-			products: data.products,
-			numOfProducts: data.productCount,
-			totalItems: totalProduct,
+			carts: data.carts,
+			numOfCarts: data.cartCount,
+			totalItems: totalCart,
 			currentPage: data.currentPage,
 			totalPages: data.totalPages,
 			"pageCSS": "/css/user/cart.css",
@@ -233,3 +235,40 @@ async function page_ty(req, res) {
 		return res.status(500).end()
 	}
 }
+
+
+router.get('/add/:id', function(req, res, next) {
+
+	var productId = req.params.id;
+	var cart = new Cart(req.session.cart ? req.session.cart : {});
+	var product = products.filter(function(item) {
+	  return item.id == productId;
+	});
+	cart.add(product[0], productId);
+	req.session.cart = cart;
+	res.redirect('/');
+	inline();
+  });
+  
+  router.get('/cart', function(req, res, next) {
+	if (!req.session.cart) {
+	  return res.render('cart', {
+		products: null
+	  });
+	}
+	var cart = new Cart(req.session.cart);
+	res.render('cart', {
+	  title: 'NodeJS Shopping Cart',
+	  products: cart.getItems(),
+	  totalPrice: cart.totalPrice
+	});
+  });
+  
+  router.get('/remove/:id', function(req, res, next) {
+	var productId = req.params.id;
+	var cart = new Cart(req.session.cart ? req.session.cart : {});
+  
+	cart.remove(productId);
+	req.session.cart = cart;
+	res.redirect('/cart');
+  });
