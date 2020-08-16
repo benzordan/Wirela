@@ -24,8 +24,18 @@
             <div class="product-name">{{name}}</div>
             <div class="product-price" data-price="{{price}}">${{price}}</div>
             {{!-- Add to cart button is here--}}
-            <div class="btn btn-primary" style="color:white; cursor:pointer;">Add to cart</div>
-        </div>
+        
+ <div class="btn btn-primary" onclick = "addToCartFunction{{@index}}()" style="color:white; cursor:pointer;">Add to cart</div>
+    <script>
+     
+function addToCartFunction{{@index}}(category,name) {
+  alert("{{name}}");
+
+}
+</script>
+
+    </div>
+       
     {{/each}}
     </div>
 </div>

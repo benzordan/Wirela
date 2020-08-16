@@ -314,12 +314,12 @@ function validateForm() {
         <th colspan="2">Your Order</th>
       </tr>
       <tr>
-        <td>Product Name x (Qty)</td>
-        <td>$10.00</td>
+        <td>Product Price x (Qty)</td>
+        <td>$1319.00</td>
       </tr>
       <tr>
         <td>Subtotal</td>
-        <td>$10.00</td>
+        <td>$1319.00</td>
       </tr>
       <tr>
         <td>Shipping</td>
@@ -332,9 +332,9 @@ function validateForm() {
     &nbsp;&nbsp;
     &nbsp;&nbsp;
     &nbsp;&nbsp;
-    <p style="font-family: Poppins;color:black; padding-right: 22px;">PAY USING</p>
+    <p style="font-family: Poppins;color:black; padding-right: 22px;">PAY WITH PAYPAL</p>
     <button onclick="placeOrder()">
-      <div id="paypal-button-container" type="button"></div>
+      <div id="paypal-button"></div>
     </button>
     </form>
   </div><!-- Yorder -->
@@ -347,43 +347,44 @@ function validateForm() {
 
 </center>
 
-<script src="https://www.paypal.com/sdk/js?client-id=AfoA19isLSYjyh56dTvTfBcPOiZ75Sb4xSNAIl5Yd4Y38OYbhwXLaTrni-AlqaIgD9XEPwf2wyk8LmKT"></script>
+<script src="https://www.paypalobjects.com/api/checkout.js"></script>
 
 
 
 <script>
-  
-  function placeOrder() {
-    //alert(1);
-    var x = document.forms["orderForm"]["fname"].value;
-    if (x == "") {
-    alert("Please fill in all the boxes!");
-    return false;
-  }
-  }
-paypal.Buttons({
-    createOrder: function(data, actions) {
-      // This function sets up the details of the transaction, including the amount and line item details.
-      return actions.order.create({
-        purchase_units: [{
-          amount: {
-            value: '25.00',
-            currency: 'SGD'
-          }
-        }]
-      });
-    },
-    onApprove: function(data, actions) {
-      // This function captures the funds from the transaction.
-      return actions.order.capture().then(function(details) {
-        // This function shows a transaction success message to your buyer.
-      if(alert('Transaction completed by ' + details.payer.name.given_name + ', thank you for your purchase!')){
-        location.href = "localhost:5000"
-      }
-      });
-    }
-  }).render('#paypal-button-container');
 
-  
+	function onPayment(data, actions) {
+		// Make a call to the REST API to set up the payment
+		return actions.payment.create({
+			payment: {
+				transactions: [
+					{
+						amount: { total: '10.00', currency: 'SGD' }
+					}
+				],
+				redirect_urls: {
+					return_url: '/thankyou',
+				}
+			}
+		});
+	}
+
+	function onAuthorized(data, actions) {
+		return actions.payment.execute().then(function() {
+			actions.redirect();
+			}
+		);
+	}
+
+
+	paypal.Button.render({
+		env: 'sandbox',
+		client: {
+			sandbox: "AfoA19isLSYjyh56dTvTfBcPOiZ75Sb4xSNAIl5Yd4Y38OYbhwXLaTrni-AlqaIgD9XEPwf2wyk8LmKT"
+		},
+		payment:     onPayment,
+		onAuthorize: onAuthorized,
+	}, '#paypal-button');
 </script>
+
 </body>

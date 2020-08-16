@@ -129,9 +129,9 @@ function handle_login(request, response) {
 
 /**
  * Handles submission of login request
- * @param {Request} request 
- * @param {Response} response 
- * @param {NextFunction}
+ * @param {Request} req
+ * @param {Response} res
+ *
  */
 function handle_login_submit(req, res, next) {
 	console.log("Incoming Request");

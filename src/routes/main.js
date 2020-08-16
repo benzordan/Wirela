@@ -5,6 +5,7 @@ import { ModelProduct } from '../models/products';
 import { getPagination, getPagingData } from '../controller/paginationController';
 import { Op } from 'sequelize';
 
+
 const router = Router({
 	caseSensitive: false,
 	mergeParams  : false,
@@ -40,32 +41,32 @@ router.get('/',      page_home);
 router.get('/about', page_about);
 router.get('/catalog', page_catalog)
 router.get('/profile', page_profile)
+router.get('/cart', page_cart)
+router.get('/thankyou', page_ty)
 ;
 /**
  * Subroutes 
  */
 router.use('/auth',      require('./auth'));
-router.use('/video',     require('./video'));
 router.use('/admin',     require('./admin/admin'));
 router.use('/cart', 	 require('./cart'));
 //	This route contains examples
 router.use('/examples',  require('./examples/examples'));
+
 module.exports = router;
 
 
 async function page_profile(req, res) {
 	try {
 		const content = await ModelUser.findOne({
+			// Find a product according to req.params["uuid"]
 			where: { "uuid": req.user.uuid},
 	});
 		if (content) {
 			return res.render('user/profile/userProfile', {
-				name : req.user.name,
-				email : req.user.email,
-				password: req.user.password,
 				title: "wirela - my profile",
 				"content": content,
-				pageCSS: "/css/user/profile.css"
+			//	pageCSS: "/css/staff/proddesc.css"
 			});
 		}
 		else {
@@ -124,6 +125,52 @@ async function page_catalog(req, res) {
 	}
 }
 
+
+async function page_cart(req, res) {
+	// Set pagination attributes
+	var size = 10;
+	const { page, search } = req.query;
+	console.log(search)
+	const { limit, offset } = getPagination(page, size)
+	try {
+		const carts = await ModelCart.findAndCountAll({limit:limit, offset:offset})
+		var totalCart = await ModelCart.count()
+		var data = getPagingData(carts, page, limit)
+		// If there is a search query, find the product that user searched for
+		if (search) {
+			const foundCarts = await ModelCart.findAndCountAll({
+				where: {
+					name: {
+						[Op.like]: '%' + search + '%'
+					}
+				},
+				limit: limit,
+				offset: offset
+			})
+			var data = getPagingData(foundCarts, page, limit);
+			console.log("size: ", data.cartCount)
+			console.log("total items: ", totalCart)
+			console.log("total pages: ", data.totalPages);
+			console.log("current page: ", data.currentPage);
+		}
+		return res.render('cart', {
+			title: "wirela: catalog",
+			carts: data.carts,
+			numOfCarts: data.cartCount,
+			totalItems: totalCart,
+			currentPage: data.currentPage,
+			totalPages: data.totalPages,
+			"pageCSS": "/css/user/cart.css",
+			"pageJS": "/js/cart.js"
+		})
+	} catch (error) {
+		console.error("Failed to retrieve products from database");
+		console.error(error);
+		return res.status(500).end();
+	}
+}
+
+
 /**
  * Renders the home page
  * @param {Request}  req Express request  object
@@ -135,6 +182,8 @@ function page_home(req, res) {
 		"pageCSS": "/css/user/main.css"
 	});
 }
+
+
 
 /**
  * Renders the about page
@@ -163,3 +212,63 @@ function page_about(req, res) {
 		]
 	});
 }
+
+async function page_ty(req, res) {
+	try {
+		const content = await ModelUser.findOne({
+			// Find a product according to req.params["uuid"]
+	});
+		if (content) {
+			return res.render('user/orders/thankyou', {
+				title: "wirela - payment success",
+				"content": content,
+			});
+		}
+		else {
+			console.error(`Failed to retrieve user ${req.params["uuid"]}`);
+			console.error("error");
+			return res.status(410).end();
+		}
+	} catch (error) {
+		console.log("Internal server error")
+		console.error(error)
+		return res.status(500).end()
+	}
+}
+
+
+router.get('/add/:id', function(req, res, next) {
+
+	var productId = req.params.id;
+	var cart = new Cart(req.session.cart ? req.session.cart : {});
+	var product = products.filter(function(item) {
+	  return item.id == productId;
+	});
+	cart.add(product[0], productId);
+	req.session.cart = cart;
+	res.redirect('/');
+	inline();
+  });
+  
+  router.get('/cart', function(req, res, next) {
+	if (!req.session.cart) {
+	  return res.render('cart', {
+		products: null
+	  });
+	}
+	var cart = new Cart(req.session.cart);
+	res.render('cart', {
+	  title: 'NodeJS Shopping Cart',
+	  products: cart.getItems(),
+	  totalPrice: cart.totalPrice
+	});
+  });
+  
+  router.get('/remove/:id', function(req, res, next) {
+	var productId = req.params.id;
+	var cart = new Cart(req.session.cart ? req.session.cart : {});
+  
+	cart.remove(productId);
+	req.session.cart = cart;
+	res.redirect('/cart');
+  });

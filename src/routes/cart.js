@@ -26,6 +26,7 @@ router.get('/payment', page_payment);
 router.get('/thankyou', page_thankyou);
 router.put('/checkout', handle_checkout);
 
+
 module.exports = router;
 
 const jsdom = require("jsdom");
@@ -73,7 +74,7 @@ async function handle_checkout(req, res) {
     catch (error) {
         console.error("Failed to create order");
         console.error(error);
-        return res.render('user/orders/cart', {
+        return res.render('/cart', {
             "text": "Order Failed. Please try again"
         })
     }
@@ -95,26 +96,41 @@ $('.product-quantity input').change( function() {
   });
   
 
+
 /* reculculate cart */
 function recalculatecart(){
     var subtotal = 0;  
 };
 
-/* update quantity */
+
+
+/* Update quantity */
 function updateQuantity(quantityInput)
 {
-    /* calculate line price */
-    var productRow = $(quantityInput).parent().parent();
-    var price = parseFloat(productRow.children('.cart-price').text());
-    var quantity = $(quantityInput).val();
-    var lineprice = price * quantity;
-
-    /*update line price display and recalc cart totals */
-    productRow.children('.cart-total').each(function(){
-        $(this).fadeout(fadeTime, function(){
-            $(this).text(lineprice.toFixed(2));
-            recalculatecart();
-            $(this).fadeIn(fadeTime);
-        });
+  /* Calculate line price */
+  var productRow = $(quantityInput).parent().parent();
+  var price = parseFloat(productRow.children('.product-price').text());
+  var quantity = $(quantityInput).val();
+  var linePrice = price * quantity;
+  
+  /* Update line price display and recalc cart totals */
+  productRow.children('.product-line-price').each(function () {
+    $(this).fadeOut(fadeTime, function() {
+      $(this).text(linePrice.toFixed(2));
+      recalculateCart();
+      $(this).fadeIn(fadeTime);
     });
+  });  
+}
+
+
+/* Remove item from cart */
+function removeItem()
+{
+  /* Remove row from DOM and recalc cart total */
+  var productRow = $(removeButton).parent().parent();
+  productRow.slideUp(fadeTime, function() {
+    productRow.remove();
+    recalculateCart();
+  });
 }
