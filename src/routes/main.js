@@ -45,7 +45,6 @@ router.get('/profile', page_profile)
  * Subroutes 
  */
 router.use('/auth',      require('./auth'));
-router.use('/video',     require('./video'));
 router.use('/admin',     require('./admin/admin'));
 router.use('/cart', 	 require('./cart'));
 //	This route contains examples
