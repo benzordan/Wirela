@@ -158,8 +158,8 @@ async function page_cart(req, res) {
 		}
 		return res.render('cart', {
 			title: "wirela: catalog",
-			Products: data.Products,
-			numOfProducts: data.ProductCount,
+			products: data.products,
+			numOfProducts: data.productCount,
 			totalItems: totalProduct,
 			currentPage: data.currentPage,
 			totalPages: data.totalPages,
