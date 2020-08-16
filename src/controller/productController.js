@@ -7,10 +7,10 @@ controller.download = async (req, res) => {
     const fields = [
     {
         label: 'Product UUID',
-        value: 'uuid'
+        value: 'uuidProduct'
     },
     {
-        label: 'Name',
+        label: 'Product Name',
         value: 'name'
     },
     {

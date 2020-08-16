@@ -1,108 +1,27 @@
-<br>
-<div class="text-center"><h1 class="page-header">Invoice</h1></div>
-<br>
-<div id="cart-container" class="container">
-     &nbsp;&nbsp;
-    <ul class = "nav nav-tabs txtUpper 
-    clearfix js-productInfoTab">
-    &nbsp;&nbsp;
-    &nbsp;&nbsp;
-    &nbsp;&nbsp;
-    &nbsp;&nbsp;
-    &nbsp;&nbsp;
-    &nbsp;&nbsp;
-    &nbsp;&nbsp;
-    &nbsp;&nbsp;
-    &nbsp;&nbsp;
-        <li class= "active" style="color:#1063F0";>
-            Products
-        </li>
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;
-        <li class= "sizeDetailtab" style="color:#1063F0";>
-            Price ($SGD)
-        </li>
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-       <li class= "sizeDetailtab" style="color:#1063F0";>
-            Quantity
-        </li>
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        <li class= "productReviewsTab" style="color:#1063F0";>
-            Total
-        </li>
-    </ul>
-
-    <div class="cart-items">
-
-    {{#each products}}
-        <div class="cart-row">
-            <div class="cart-item cart-column">
-                <img class="cart-item-image" width="100" height="100">
-                <span class="cart-item-title">{{product}}</span>
-            </div>
-            <span class="cart-price cart-column">${{price}}</span>
-            <div class="cart-quantity cart-column">
-                {{!-- Retrieve value here --}}
-                <input type="number" value="1" min="1" step="any" >
-            
-
-                &nbsp;&nbsp;
-                &nbsp;&nbsp;
-
-               
-
-                &nbsp;&nbsp;
-                
-                <button class="btn btn-danger" type="button" value="remove" <button onclick="alert('Item removed')">Remove</button>
-            </div>
-            <span class="cart-total cart-column">${{price}}</span>
-            
-        </div>
-    {{/each}}
-    </div>
+<div class="container-fluid">
+	<!-- See more "https://examples.bootstrap-table.com/#welcome.html" -->
+	<table 
+		id="table"
+		data-toggle="table"
+		data-pagination="true"
+		data-url="/examples/client-table-data-raw"
+		data-sort-name="title"
+		data-silent-sort="false"
+		data-side-pagination="server"
+		data-show-refresh="true"
+		data-show-columns="true"
+		data-show-columns-search="true">
+		<thead>
+			<th data-field="uuid">UUID</th>
+			<th data-field="title"          data-sortable="true">Title</th>
+			<th data-field="dateCreated"    data-sortable="true" data-formatter="dateFormat">Date Created</th>
+			<th data-field="dateUpdated"    data-sortable="true" data-formatter="dateFormat">Date Updated</th>
+			<th data-field="dateReleased"   data-sortable="true" data-formatter="dateFormat">Date Released</th>
+			<th data-field="story"          data-sortable="true">Story</th>
+			<th data-field="language"       data-sortable="true">Language</th>
+			<th data-field="classification" data-sortable="true">Classification</th>
+		</thead>
+	</table>
 </div>
 
 <script>

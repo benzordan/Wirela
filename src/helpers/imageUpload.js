@@ -1,5 +1,6 @@
 import multer from "multer";
 import { diskStorage, FileFilterCallback } from 'multer';
+import Path from "path";
 import { v4 as uuidv4 } from "uuid";
 import FileSys from 'fs';
 

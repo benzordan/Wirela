@@ -1,5 +1,6 @@
 <div class="text-center"><h1 class="page-header">Products</h1></div>
 <div class="container-fluid">
+    <p>Showing results:{{numOfProducts}} of {{totalItems}}</p>
     <div class="search-form">
         <form action="/admin/product/list">
             <label for="search">Search</label>
@@ -18,16 +19,10 @@
             <div class="product-description">{{description}}</div>
             <div class="product-quantity">Quantity: {{quantity}}</div>
             <div class="product-price">Price: ${{price}}</div>
-            <a href="/admin/product/update/{{uuid}}" class="card-link">
+            <a href="/admin/product/list/{{uuid}}" class="card-link">
             <i class="fas fa-pencil-alt"></i>
-                Edit
+                View Details
             </a>
-            <form method="POST" action="/admin/product/delete/{{uuid}}?_method=DELETE" id="toggle-delete-{{uuid}}">
-                <a href="javascript:;" class="card-link btn-delete" onclick="if (confirm('Confirm delete?')) parentNode.submit();" data-title="Confirm delete?">
-                    <i class="far fa-trash-alt"></i>
-                    Delete
-                </a>
-            </form>
         </div>
     </div>
     {{/each}}

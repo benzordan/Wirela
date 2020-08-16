@@ -1,9 +1,9 @@
 import Passport from 'passport'
 import { sha256 } from 'hash.js'
-import { Router, Request, Response, NextFunction } from 'express'
-import { ModelUser } from '../models/models'
-import { UserRole } from '../models/users'
-import { flash_message, FlashType }  from '../helpers/flash-messenger'
+import { Router, Request, Response, NextFunction } from 'express';
+import { ModelUser }                 from '../models/models'
+import { flash_message, FlashType }  from '../helpers/flash-messenger';
+import { UserRole } from '../../build/models/users';
 
 const router = Router();
 
@@ -129,23 +129,17 @@ function handle_login(request, response) {
 
 /**
  * Handles submission of login request
- * @param {Request} req
- * @param {Response} res
- *
+ * @param {Request} request 
+ * @param {Response} response 
+ * @param {NextFunction}
  */
-function handle_login_submit(req, res, next) {
-	console.log("Incoming Request")
-	console.log(req.body)
+function handle_login_submit(request, response, next) {
+	console.log("Incoming Request");
+	console.log(request.body);
 
-	return Passport.authenticate('local', function(err, user, info) {
-		if (err) { return next(err); }
-		if (!user) { return res.redirect('/auth/login'); }
-		req.logIn(user, function(err) {
-			if (err) { return next(err); }
-			if (user.role === UserRole.Admin)
-				return res.redirect('/admin/product/list');
-			else 
-				return res.redirect('/')
-		});
-	})(req, res, next);
-};
+	return Passport.authenticate('local', {
+		successRedirect: '/admin/product/list',
+		failureRedirect: '/auth/login',
+		failureFlash   : true
+	})(request, response, next);
+}

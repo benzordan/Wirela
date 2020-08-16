@@ -9,11 +9,13 @@ export const FlashType = {
 
 /**
  * Flash a message.
+ * If you encounter "Handlebars: Access has been denied to resolve the property "alertsBeforeFlush" because it is not an "own property" of its parent."
+ * 	Install the package "@handlebars/allow-prototype-access"
  * @see "https://www.npmjs.com/package/flash-messenger"
- * @param {Response}      response 	HTTP outgoing response object
- * @param {string}        type		flashType
+ * @param {Response}      response 	The response object of the current request
+ * @param {string}        type		See {FlashType}
  * @param {string}        message 	The message to be shown
- * @param {string}        icon 		The icon used
+ * @param {string}        icon 		The icon used. See from FontAwesome
  * @param {boolean}       isDismissable Whether we can dismiss the box
  */
 export function flash_message(response, type, message, icon, isDismissable = true) {
