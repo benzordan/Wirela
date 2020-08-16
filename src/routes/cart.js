@@ -26,6 +26,7 @@ router.get('/payment', page_payment);
 router.get('/thankyou', page_thankyou);
 router.put('/checkout', handle_checkout);
 
+
 module.exports = router;
 
 const jsdom = require("jsdom");
@@ -38,7 +39,7 @@ function authorizer(req, res, next) {
 }
 
 function page_default(req, res) {
-    res.render('user/orders/cart', {
+    res.render('/cart', {
         products: products,
         "pageCSS": "/css/user/cart.css",
         "pageJS": "/js/order.js"
@@ -73,7 +74,7 @@ async function handle_checkout(req, res) {
     catch (error) {
         console.error("Failed to create order");
         console.error(error);
-        return res.render('user/orders/cart', {
+        return res.render('/cart', {
             "text": "Order Failed. Please try again"
         })
     }
@@ -84,11 +85,16 @@ var fadeTime = 300;
 // document.addEventListener('change',function(event){
 //     updateQuantity(this);
 // });
-/* assign actions */
-$('.cart-quantity').change(function(){
-    updateQuantity(this);
-});
 
+/* Assign actions */
+$('.product-quantity input').change( function() {
+    updateQuantity(this);
+  });
+  
+  $('.product-removal button').click( function() {
+    removeItem(this);
+  });
+  
 
 /* reculculate cart */
 function recalculatecart(){
