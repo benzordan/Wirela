@@ -126,6 +126,7 @@ async function page_catalog(req, res) {
 }
 
 
+
 async function page_cart(req, res) {
 	// Set pagination attributes
 	var size = 10;
@@ -133,12 +134,12 @@ async function page_cart(req, res) {
 	console.log(search)
 	const { limit, offset } = getPagination(page, size)
 	try {
-		const carts = await ModelCart.findAndCountAll({limit:limit, offset:offset})
-		var totalCart = await ModelCart.count()
-		var data = getPagingData(carts, page, limit)
+		const Products = await ModelProduct.findAndCountAll({limit:limit, offset:offset})
+		var totalProduct = await ModelProduct.count()
+		var data = getPagingData(Products, page, limit)
 		// If there is a search query, find the product that user searched for
 		if (search) {
-			const foundCarts = await ModelCart.findAndCountAll({
+			const foundProducts = await ModelProduct.findAndCountAll({
 				where: {
 					name: {
 						[Op.like]: '%' + search + '%'
@@ -147,17 +148,17 @@ async function page_cart(req, res) {
 				limit: limit,
 				offset: offset
 			})
-			var data = getPagingData(foundCarts, page, limit);
+			var data = getPagingData(foundProducts, page, limit);
 			console.log("size: ", data.cartCount)
-			console.log("total items: ", totalCart)
+			console.log("total items: ", totalProduct)
 			console.log("total pages: ", data.totalPages);
 			console.log("current page: ", data.currentPage);
 		}
 		return res.render('cart', {
 			title: "wirela: catalog",
-			carts: data.carts,
-			numOfCarts: data.cartCount,
-			totalItems: totalCart,
+			Products: data.Products,
+			numOfProducts: data.ProductCount,
+			totalItems: totalProduct,
 			currentPage: data.currentPage,
 			totalPages: data.totalPages,
 			"pageCSS": "/css/user/cart.css",

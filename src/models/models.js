@@ -1,12 +1,10 @@
 export { ModelUser  }     from './users'
 export { ModelOrder } from './orders'
 export { ModelProduct } from './products'
-export { ModelCart } from './carts'
 
 import { ModelUser }      from './users'
 import { ModelOrder } from './orders'
 import { ModelProduct } from './products'
-import { ModelCart } from './carts'
 
 import { sha256 }                  from 'hash.js'
 import { Sequelize, SyncOptions, SequelizeScopeError }  from 'sequelize'
@@ -23,7 +21,6 @@ export function initialize_models(sequelize) {
 		ModelUser.initialize(sequelize);
 		ModelOrder.initialize(sequelize);
 		ModelProduct.initialize(sequelize);
-		ModelCart.initialize(sequelize);
 
 		console.log("Building ORM model relations and indices");
 
@@ -36,7 +33,7 @@ export function initialize_models(sequelize) {
 		//	Run once hooks during initialization
 		sequelize.addHook("afterBulkSync", generate_root_account.name,  generate_root_account.bind(this, sequelize));
 		sequelize.addHook("afterBulkSync", generate_products.name, generate_products.bind(this, sequelize));
-		sequelize.addHook("afterBulkSync", generate_carts.name, generate_carts.bind(this, sequelize));
+		
 	}
 	catch (error) {
 		console.error ("Failed to configure ORM models");
@@ -100,23 +97,6 @@ async function generate_products(sequelize, options) {
 	}
 	catch (error) {
 		console.log("Failed to generate products");
-		console.log(error);
-		return Promise.reject(error);
-	}
-}
-async function generate_carts(sequelize, options) {
-	try {
-		sequelize.removeHook("afterBulkSync", generate_carts.name);
-		console.log("Generating cart items");
-		//	Clear all carts
-		const rows_deleted = await ModelCart.destroy({ where: { } });
-		const list_carts = await ModelCart.bulkCreate(cartlist);
-		console.log(`Deleted ${rows_deleted} dummy cart data`);
-		console.log(`Inserted ${list_carts.length}`);
-		return Promise.resolve();
-	}
-	catch (error) {
-		console.log("Failed to generate carts");
 		console.log(error);
 		return Promise.reject(error);
 	}
