@@ -4,13 +4,7 @@ import { ModelUser } from '../models/users';
 import { ModelProduct } from '../models/products';
 import { getPagination, getPagingData } from '../controller/paginationController';
 import { Op } from 'sequelize';
-<<<<<<< HEAD
-<<<<<<< HEAD
 
-=======
->>>>>>> parent of 3c43d9a... test3
-=======
->>>>>>> parent of 3c43d9a... test3
 
 const router = Router({
 	caseSensitive: false,
@@ -58,15 +52,6 @@ router.use('/admin',     require('./admin/admin'));
 router.use('/cart', 	 require('./cart'));
 //	This route contains examples
 router.use('/examples',  require('./examples/examples'));
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
->>>>>>> parent of 3c43d9a... test3
-=======
->>>>>>> parent of 3c43d9a... test3
-module.exports = router;
-
 
 async function page_profile(req, res) {
 	try {
