@@ -59,14 +59,16 @@ module.exports = router;
 async function page_profile(req, res) {
 	try {
 		const content = await ModelUser.findOne({
-			// Find a product according to req.params["uuid"]
 			where: { "uuid": req.user.uuid},
 	});
 		if (content) {
 			return res.render('user/profile/userProfile', {
+				name : req.user.name,
+				email : req.user.email,
+				password: req.user.password,
 				title: "wirela - my profile",
 				"content": content,
-			//	pageCSS: "/css/staff/proddesc.css"
+				pageCSS: "/css/user/profile.css"
 			});
 		}
 		else {
