@@ -1,14 +1,14 @@
 import { Sequelize, Model, DataTypes } from 'sequelize'
 import { ModelAttributes, InitOptions, UpdateOptions } from 'sequelize'
 /** 
- * @typedef {import('./structures').Product} Product 
+ * @typedef {import('./structures').Cart} Cart 
 **/
 
 /**
  * @implements {Model}
  */
 
-export class ModelProduct extends Model {
+export class ModelCart extends Model {
 
 	/**
 	 * Initializer of the model
@@ -17,7 +17,7 @@ export class ModelProduct extends Model {
 	 * @param   {Sequelize} sequelize The configured Sequelize handle
 	**/
 	static initialize(sequelize) {
-		ModelProduct.init(ModelProduct._columns(), ModelProduct._table_options(sequelize));
+		ModelCart.init(ModelCart._columns(), ModelCart._table_options(sequelize));
 	}
 	
 	/**
@@ -44,7 +44,7 @@ export class ModelProduct extends Model {
 	static _table_options(sequelize) {
 		return {
 			"sequelize": sequelize,
-			"tableName": "products",
+			"tableName": "carts",
 		};
     }
     
@@ -56,7 +56,7 @@ export class ModelProduct extends Model {
 
 	/** 
 	 * Shorthand for obtaining typed attribute access with typescript definitions
-	 * @returns {Product} 
+	 * @returns {Cart} 
 	 **/
 	 // @ts-ignore
 	get data()  { return this.get(); }
