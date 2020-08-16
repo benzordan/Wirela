@@ -41,12 +41,12 @@ router.get('/about', page_about);
 router.get('/catalog', page_catalog)
 router.get('/profile', page_profile)
 router.get('/cart', page_cart)
+router.get('/thankyou', page_ty)
 ;
 /**
  * Subroutes 
  */
 router.use('/auth',      require('./auth'));
-router.use('/video',     require('./video'));
 router.use('/admin',     require('./admin/admin'));
 router.use('/cart', 	 require('./cart'));
 //	This route contains examples
@@ -57,16 +57,14 @@ module.exports = router;
 async function page_profile(req, res) {
 	try {
 		const content = await ModelUser.findOne({
+			// Find a product according to req.params["uuid"]
 			where: { "uuid": req.user.uuid},
 	});
 		if (content) {
 			return res.render('user/profile/userProfile', {
-				name : req.user.name,
-				email : req.user.email,
-				password: req.user.password,
 				title: "wirela - my profile",
 				"content": content,
-				pageCSS: "/css/user/profile.css"
+			//	pageCSS: "/css/staff/proddesc.css"
 			});
 		}
 		else {
@@ -211,4 +209,27 @@ function page_about(req, res) {
 			{ "message": "Error message 4" }
 		]
 	});
+}
+
+async function page_ty(req, res) {
+	try {
+		const content = await ModelUser.findOne({
+			// Find a product according to req.params["uuid"]
+	});
+		if (content) {
+			return res.render('user/orders/thankyou', {
+				title: "wirela - payment success",
+				"content": content,
+			});
+		}
+		else {
+			console.error(`Failed to retrieve user ${req.params["uuid"]}`);
+			console.error("error");
+			return res.status(410).end();
+		}
+	} catch (error) {
+		console.log("Internal server error")
+		console.error(error)
+		return res.status(500).end()
+	}
 }
