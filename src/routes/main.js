@@ -4,7 +4,7 @@ import { ModelUser } from '../models/users';
 import { ModelProduct } from '../models/products';
 import { getPagination, getPagingData } from '../controller/paginationController';
 import { Op } from 'sequelize';
-import { ModelCart } from '../models/carts';
+
 
 const router = Router({
 	caseSensitive: false,
@@ -52,18 +52,7 @@ router.use('/admin',     require('./admin/admin'));
 router.use('/cart', 	 require('./cart'));
 //	This route contains examples
 router.use('/examples',  require('./examples/examples'));
-router.get('/add/:id', function(req, res, next) {
 
-	var productId = req.params.id;
-	var cart = new Cart(req.session.cart ? req.session.cart : {});
-	var product = products.filter(function(item) {
-	  return item.id == productId;
-	});
-	cart.add(product[0], productId);
-	req.session.cart = cart;
-	res.redirect('/');
-	inline();
-  });
 module.exports = router;
 
 

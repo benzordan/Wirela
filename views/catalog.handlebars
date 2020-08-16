@@ -26,12 +26,11 @@
             {{!-- Add to cart button is here--}}
         
  <div class="btn btn-primary" onclick = "addToCartFunction{{@index}}()" style="color:white; cursor:pointer;">Add to cart</div>
-    <a href="/add/{{uuid}}" class="btn btn-default pull-right" role="button"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to cart</a>
     <script>
+     
 function addToCartFunction{{@index}}(category,name) {
-  //alert("{{name}}");
-  //products.add(product);
- alert(carts.name);
+  alert("{{name}}");
+
 }
 </script>
 
