@@ -5,7 +5,6 @@ import { ModelProduct } from '../models/products';
 import { getPagination, getPagingData } from '../controller/paginationController';
 import { Op } from 'sequelize';
 
-
 const router = Router({
 	caseSensitive: false,
 	mergeParams  : false,
@@ -52,6 +51,8 @@ router.use('/admin',     require('./admin/admin'));
 router.use('/cart', 	 require('./cart'));
 //	This route contains examples
 router.use('/examples',  require('./examples/examples'));
+module.exports = router;
+
 
 async function page_profile(req, res) {
 	try {
