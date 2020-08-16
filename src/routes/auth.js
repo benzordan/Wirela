@@ -110,7 +110,7 @@ async function handle_register_submit(request, response) {
 			"fas fa-sign-in-alt", 
 			true);
 
-			return response.redirect("/login"
+			return response.redirect("/"
 			//"alert_success": `${request.body["email"]} registered successfully.`
 		);
 	}
