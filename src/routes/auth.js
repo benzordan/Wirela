@@ -3,7 +3,7 @@ import { sha256 } from 'hash.js'
 import { Router, Request, Response, NextFunction } from 'express';
 import { ModelUser }                 from '../models/models'
 import { flash_message, FlashType }  from '../helpers/flash-messenger';
-import { UserRole } from '../../build/models/users';
+import { UserRole } from '../models/users';
 
 const router = Router();
 
@@ -110,9 +110,9 @@ async function handle_register_submit(request, response) {
 			"fas fa-sign-in-alt", 
 			true);
 
-		return response.render("user/login", {
+			return response.redirect("/login"
 			//"alert_success": `${request.body["email"]} registered successfully.`
-		});
+		);
 	}
 }
 
@@ -133,13 +133,19 @@ function handle_login(request, response) {
  * @param {Response} response 
  * @param {NextFunction}
  */
-function handle_login_submit(request, response, next) {
+function handle_login_submit(req, res, next) {
 	console.log("Incoming Request");
-	console.log(request.body);
+	console.log(req.body);
 
-	return Passport.authenticate('local', {
-		successRedirect: '/admin/product/list',
-		failureRedirect: '/auth/login',
-		failureFlash   : true
-	})(request, response, next);
+	return Passport.authenticate('local', {failureFlash: 'Invalid username or password.'},function(err, user, info) {
+        if (err) { return next(err); }
+        if (!user) { return res.redirect('/auth/login'); }
+        req.logIn(user, function(err) {
+            if (err) { return next(err); }
+            if (user.role === UserRole.Admin)
+                return res.redirect('/admin/product/list');
+            else 
+                return res.redirect('/')
+        });
+    })(req, res, next);
 }

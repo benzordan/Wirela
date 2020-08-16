@@ -40,7 +40,9 @@ async function verify_request(username, password, done) {
 		else {
 			console.error("Login credientials mismatched");
 			console.error(`Hash: ${hpassword} vs ${user.password}`);
+			flash_message(FlashType.Error, "Invalid credentials");
 			return done(null, false, { message: "Invalid credentials" });
+
 		}
 	}
 	catch (error) {
