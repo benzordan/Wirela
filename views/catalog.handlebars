@@ -25,12 +25,27 @@
             <div class="product-price" data-price="{{price}}">${{price}}</div>
             {{!-- Add to cart button is here--}}
         
- <div class="btn btn-primary" onclick = "addToCartFunction{{@index}}()" style="color:white; cursor:pointer;">Add to cart</div>
+ <div class="btn btn-primary" id="addItem0{{@index}}" onclick = "addToCartFunction{{@index}}()" style="color:white; cursor:pointer;">Add to cart</div>
     <script>
+        if(localStorage.getItem("addItem")){
+            let addItem=localStorage.getItem("addItem");
+            addArr=JSON.parse(addItem)
+        }else{
+            addArr=[]
+        }
      
-function addToCartFunction{{@index}}(category,name) {
-  alert("{{name}}");
-
+function addToCartFunction{{@index}}(category,name,price,urlImage,description) {
+        alert("{{name}}");
+       // console.log("product", "{{category}}","{{name}}","{{description}}","{{urlImage}}");
+        temp={};
+        temp.product="{{product}}", temp.category="{{category}}", temp.urlImage="{{urlImage}}", temp.name="{{name}}",temp.description="{{description}}",temp.price="{{price}}";
+        addArr.push(JSON.stringify(temp));
+       // console.log("dddd::", temp);
+        
+        localStorage.setItem("addItem", JSON.stringify(addArr));
+        document.getElementById("addItem0{{@index}}").removeAttribute("onclick");
+                                $("#addItem0{{@index}}").text('Cart Added');
+       // document.getElementById("addItem0{{@index}}").innerText("Cart Added");
 }
 </script>
 
