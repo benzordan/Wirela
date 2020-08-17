@@ -1,23 +1,6 @@
 <div class="sidebar">
     <a href="/" class="brand">wirela</a>
-    <div class="sidebar-profile">
-        <div class="profile-info">
-            <div class="sidebar-profile-details">
-                <div class="sidebar-profile-name">
-                    <!-- Insert user's name -->
-                </div>
-                <div class="sidebar-profile-title">
-                    <!-- Insert user's role -->
-                </div>
-            </div>
-        </div>
-        <div class="sidebar-profile-dropdown">
-            <ul class="profile-dropdown list-unstyled">
-                <li class="sidebar-item"><a class="dropdown-link" href="#">Edit Profile</a></li>
-                <li class="sidebar-item"><a class="dropdown-link" href="/auth/logout">Logout</a></li>
-            </ul>
-        </div>
-    </div>
+    
     <div class="sidebar-section sidebar-body">
         <div class="section-title">Navigation</div>
         <ul class="sidebar-main-nav list-unstyled">
@@ -91,6 +74,20 @@
                             <li class="sidebar-item">
                                 <a href="/admin/..." class="dropdown-link">
                                     Member List
+                                </a>
+                            </li>
+                        </ul>
+                    </div><!-- dropdown body -->
+                </div><!-- member dropdown -->
+            </li><!-- sidebar-item member -->
+            <li class="sidebar-item">
+                <a class="sidebar-link" data-toggle="collapse" href="#more-dropdown">More</a>
+                <div id="more-dropdown" class="collapse panel-collapse">
+                    <div class="panel-body">
+                        <ul class="nav navbar-nav">
+                            <li class="sidebar-item">
+                                <a href="/auth/logout" class="dropdown-link">
+                                    Logout
                                 </a>
                             </li>
                         </ul>
