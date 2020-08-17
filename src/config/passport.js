@@ -2,7 +2,7 @@ import { sha256 }                   from 'hash.js'
 import { PassportStatic }           from 'passport'
 import { Strategy, VerifyFunction } from 'passport-local'
 import { ModelUser }                from '../models/models'
-
+import { flash_message, FlashType  } from '../helpers/flash-messenger'
 /**
  * Configure passport
  * @param {PassportStatic} passport 
@@ -40,7 +40,7 @@ async function verify_request(username, password, done) {
 		else {
 			console.error("Login credientials mismatched");
 			console.error(`Hash: ${hpassword} vs ${user.password}`);
-			flash_message(FlashType.Error, "Invalid credentials");
+			flash_message(res, FlashType.Warn, "Invalid credentials");
 			return done(null, false, { message: "Invalid credentials" });
 
 		}
