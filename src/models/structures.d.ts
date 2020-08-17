@@ -5,6 +5,8 @@
  * are identical to .js files. Intellisense isn't that good to differenciate.
 **/
 
+import { Model } from "sequelize/types";
+
 /**
  * This structure represents a user stored in the database.
 **/
@@ -41,5 +43,8 @@ export interface Product {
 export interface Order {
 	orderId? : string;
 	orderDate? : Date;
-	userId?: string;
+	product?: string;
+	quantity?: number;
+	price?: string;
+	name?: string;
 }

@@ -48,7 +48,8 @@ function page_default(req, res) {
 
 function page_payment(req, res) {
     return res.render('user/orders/payment', {
-        "pageCSS": "/css/user/payment.css"
+        "pageCSS": "/css/user/payment.css",
+        "pageJS": "/js/cart.js",
     });
 }
 
@@ -65,11 +66,12 @@ function page_thankyou(req, res) {
 async function handle_checkout(req, res) {
     try {
         const new_order = await ModelOrder.create({
-            "orderId": orderId,
-            "orderDate": orderDate,
-            
+            "name": req.params["name"],
+            "price": req.params["price"],
+            "quantity": req.params["quantity"],
+            "product": req.params["product"],
         });
-        return res.redirect('/cart/thankyou');
+        return res.redirect('/payment');
     }
     catch (error) {
         console.error("Failed to create order");
@@ -81,56 +83,9 @@ async function handle_checkout(req, res) {
 
 }
 
-var fadeTime = 300;
-// document.addEventListener('change',function(event){
-//     updateQuantity(this);
-// });
-
-/* Assign actions */
-$('.product-quantity input').change( function() {
-    updateQuantity(this);
-  });
-  
-  $('.product-removal button').click( function() {
-    removeItem(this);
-  });
   
 
 
-/* reculculate cart */
-function recalculatecart(){
-    var subtotal = 0;  
-};
 
 
 
-/* Update quantity */
-function updateQuantity(quantityInput)
-{
-  /* Calculate line price */
-  var productRow = $(quantityInput).parent().parent();
-  var price = parseFloat(productRow.children('.product-price').text());
-  var quantity = $(quantityInput).val();
-  var linePrice = price * quantity;
-  
-  /* Update line price display and recalc cart totals */
-  productRow.children('.product-line-price').each(function () {
-    $(this).fadeOut(fadeTime, function() {
-      $(this).text(linePrice.toFixed(2));
-      recalculateCart();
-      $(this).fadeIn(fadeTime);
-    });
-  });  
-}
-
-
-/* Remove item from cart */
-function removeItem()
-{
-  /* Remove row from DOM and recalc cart total */
-  var productRow = $(removeButton).parent().parent();
-  productRow.slideUp(fadeTime, function() {
-    productRow.remove();
-    recalculateCart();
-  });
-}

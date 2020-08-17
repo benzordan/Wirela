@@ -18,13 +18,12 @@ export class ModelOrder extends Model {
      */
     static _columns() {
         return {
-            "orderID": { type: DataTypes.STRING(36), primaryKey: true, defaultValue: ""},
+            "orderID": { type: DataTypes.CHAR(36),    primaryKey: true, defaultValue: DataTypes.UUIDV4 },
             "orderDate": { type: DataTypes.DATE(), allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')},
             "name": { type: DataTypes.STRING(), allowNull: false, defaultValue: ""},
-            "address": { type: DataTypes.STRING(), allowNull: false, defaultValue: ""},
-            "phone": {type: DataTypes.STRING(), allowNull: false, defaultValue: ""},
-            "email": { type: DataTypes.STRING(), allowNull: false, defaultValue: ""},
-            "totalPrice": { type: DataTypes.STRING(), allowNull: false, defaultValue: ""}
+            "price": { type:DataTypes.DECIMAL(10, 2), allowNull: false},
+            "product": { type: DataTypes.STRING(64), allowNull: false, },
+            "quantity": { type: DataTypes.INTEGER(12), allowNull: false},
         }
     }
 

@@ -28,7 +28,8 @@ export function initialize_models(sequelize) {
 		//	Setup foreign keys, indexes etc
 		ModelUser.hasMany(ModelOrder, { foreignKey: { name: "uuid"} });
 		// ModelOrder.hasMany(ModelProduct, { foreignKey: { name: "uuid_order"} });
-			
+		ModelUser.hasOne(ModelOrder, {as:'order-uuid'})
+		ModelOrder.belongsTo(ModelUser)	
 		console.log("Adding intitialization hooks");
 		//	Run once hooks during initialization
 		sequelize.addHook("afterBulkSync", generate_root_account.name,  generate_root_account.bind(this, sequelize));

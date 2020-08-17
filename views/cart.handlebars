@@ -107,9 +107,9 @@
 </div>
 {{!-- Redirect to payment page --}}
 <center>
-        <a href="/cart/payment">
-            <button class="btn btn-primary mt-2">Checkout</button>
-        </a>
+    <form class="btn btn-primary mt-2" action="/cart/payment?_method=POST">
+    <button id="btnSubmit" type="submit" class="btn btn-primary">checkout</button>
+    </form>
 </center>
  &nbsp;&nbsp;
     &nbsp;&nbsp;

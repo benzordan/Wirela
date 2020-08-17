@@ -1,19 +1,21 @@
 <br>
-<div class="text-center"><h1 class="page-header">Invoice</h1></div>
-<br>
+<div class="container">
+    <div class="text-center">
+        <div class="text-center"><h1 class="page-header">Invoice</h1></div>
+    </div>
+</div>
+<style>
+    .Button
+    {
+        margin:5px;
+    }
+</style>
+
 <div id="cart-container" class="container">
      &nbsp;&nbsp;
     <ul class = "nav nav-tabs txtUpper 
     clearfix js-productInfoTab">
-    &nbsp;&nbsp;
-    &nbsp;&nbsp;
-    &nbsp;&nbsp;
-    &nbsp;&nbsp;
-    &nbsp;&nbsp;
-    &nbsp;&nbsp;
-    &nbsp;&nbsp;
-    &nbsp;&nbsp;
-    &nbsp;&nbsp;
+        &nbsp;&nbsp;
         <li class= "active" style="color:#1063F0";>
             Products
         </li>
@@ -33,7 +35,20 @@
         &nbsp;&nbsp;
         &nbsp;&nbsp;
         &nbsp;&nbsp;
-        &nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
         <li class= "sizeDetailtab" style="color:#1063F0";>
             Price ($SGD)
         </li>
@@ -49,67 +64,53 @@
         &nbsp;&nbsp;
         &nbsp;&nbsp;
         &nbsp;&nbsp;
+         &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+         &nbsp;&nbsp;
+        &nbsp;&nbsp;
        <li class= "sizeDetailtab" style="color:#1063F0";>
             Quantity
         </li>
         &nbsp;&nbsp;
         &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        <li class= "productReviewsTab" style="color:#1063F0";>
-            Total
-        </li>
     </ul>
 
     <div class="cart-items">
 
-    {{#each products}}
+    {{#each orders}}
         <div class="cart-row">
             <div class="cart-item cart-column">
-                <img class="cart-item-image" width="100" height="100">
+                <div class="product-orderID">{{orderID}}</div>
+                <div class="product-name">{{name}}</div>   
+                <div class="product-orderDate">{{orderDate}}</div>             
                 <span class="cart-item-title">{{product}}</span>
             </div>
             <span class="cart-price cart-column">${{price}}</span>
+            <div class="product-quantity">{{quantity}}</div> 
             <div class="cart-quantity cart-column">
-                {{!-- Retrieve value here --}}
-                <input type="number" value="1" min="1" step="any" >
             
 
                 &nbsp;&nbsp;
                 &nbsp;&nbsp;
-
-               
-
                 &nbsp;&nbsp;
                 
-                <button class="btn btn-danger" type="button" value="remove" <button onclick="alert('Item removed')">Remove</button>
+                <button class="btn btn-danger" type="button" value="remove" 
+                onclick="alert('Item removed')">Remove</button>
             </div>
-            <span class="cart-total cart-column">${{price}}</span>
             
         </div>
     {{/each}}
     </div>
 </div>
+{{!-- Redirect to payment page --}}
 
-<script>
-	/**
-	 * @param {Date | number | string} date The date to be formated in local time zone
-	 */
-	function dateFormat(date) {
-		return moment(date).utcOffset('+0800').format("YYYY-MM-DD HH:MM:SS Z");
-	}
-</script>
+ &nbsp;&nbsp;
+    &nbsp;&nbsp;
+    &nbsp;&nbsp;
+    &nbsp;&nbsp;
+    &nbsp;&nbsp;
+    &nbsp;&nbsp;
+    &nbsp;&nbsp;
+    &nbsp;&nbsp;
+    &nbsp;&nbsp;
