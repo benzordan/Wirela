@@ -146,7 +146,7 @@ function handle_login_submit(req, res, next) {
         req.logIn(user, function(err) {
             if (err) { return next(err); }
             if (user.role === UserRole.Admin)
-                return res.redirect('/admin/product/list');
+                return res.redirect('/dashboard');
             else 
                 return res.redirect('/')
         });

@@ -6,6 +6,7 @@ import { getPagination, getPagingData } from '../controller/paginationController
 import { Op } from 'sequelize';
 
 
+
 const router = Router({
 	caseSensitive: false,
 	mergeParams  : false,
@@ -141,8 +142,9 @@ async function handle_update_profile(req, res) {
 	if (errors.length > 0) {
 		return res.render("user/profile/updateProfile", {
 			title: "wirela : update profile",
-				"mode"   : "update",
-				content: content
+				mode   : "update",
+				content: content,
+				errors : "errors",
 		})
 	}
 	try {
