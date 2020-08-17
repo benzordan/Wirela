@@ -69,7 +69,7 @@ export const productlist = [
         "description": "This is the Huawei P40 pro",
         "quantity": 10,
         "price": 978,
-        "urlImage": "/uploads/p40pro.png"
+        "urlImage": "/uploads/p40lite.png"
     },
     {
         "name":"Huawei P40 Lite",

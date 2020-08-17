@@ -73,7 +73,7 @@ async function page_list_products(req, res) {
 			numOfProducts: data.productCount,
 			totalItems: totalProduct,
 			currentPage: data.currentPage,
-			totalPages: data.totalPages,
+			totalPages: data.totalPages,			
 			pageCSS: "/css/staff/prodlist.css",
 			pageJS: "/js/staff/products.js"
 		})
@@ -125,6 +125,7 @@ async function page_list_productitem(req, res) {
 function page_create_product(req, res) {
 	return res.render('staff/products/createProduct', {
 		title: "wirela staff: create product",
+		"pageJS": "/js/staff/createProducts",
 		layout: "staff",
 		mode: "create",
 		content: {}
@@ -159,8 +160,8 @@ async function handle_create_product(req, res) {
 		try {
 			// Create a product based on the database model ModelProduct
 			const new_product = await ModelProduct.create({
-				"name"    : req.body["name"].toLowerCase(),
-				"category": req.body["category"].toLowerCase(),
+				"name"    : req.body["name"],
+				"category": req.body["category"],
 				"description" : req.body["description"],
 				"quantity": req.body["quantity"],
 				"price"   : req.body["price"],

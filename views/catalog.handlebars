@@ -11,10 +11,7 @@
         <div class="filter-menu">
             <a href="#" class="filter-item nameAsc">Name: A to Z</a>
             <a href="#" class="filter-item nameDes">Name: Z to A</a>
-            {{!-- <a href="#" class="filter-item priceAsc">Price: Low to High</a>
-            <a href="#" class="filter-item priceDes">Price: High to Low</a> --}}
         </div>
-        <span class="ml-3">Showing results:{{numOfProducts}} of {{totalItems}}</span>
     </div>
     <div class="product-list">
     {{#each products}}
@@ -23,19 +20,10 @@
             <div class="product-category">{{category}}</div>
             <div class="product-name">{{name}}</div>
             <div class="product-price" data-price="{{price}}">${{price}}</div>
-            {{!-- Add to cart button is here--}}
-        
- <div class="btn btn-primary" onclick = "addToCartFunction{{@index}}()" style="color:white; cursor:pointer;">Add to cart</div>
-    <script>
-     
-function addToCartFunction{{@index}}(category,name) {
-  alert("{{name}}");
-
-}
-</script>
-
-    </div>
-       
+            <form action="/add" method="POST">
+                <div class="btn btn-primary">Add to cart</div>
+            </form>
+        </div>
     {{/each}}
     </div>
 </div>
