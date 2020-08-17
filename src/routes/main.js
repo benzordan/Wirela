@@ -1,9 +1,11 @@
 import { Router, Request, Response } from 'express'
 import { flash_message, FlashType  } from '../helpers/flash-messenger'
 import { ModelUser } from '../models/users';
+import { UserRole } from '../models/users';
 import { ModelProduct } from '../models/products';
 import { getPagination, getPagingData } from '../controller/paginationController';
 import { Op } from 'sequelize';
+
 
 
 const router = Router({
@@ -45,7 +47,7 @@ router.get('/update/:uuid',  page_update_profile);
 router.patch('/update/:uuid', handle_update_profile);
 router.get('/cart', page_cart)
 router.get('/thankyou', page_ty)
-router.get('/dashboard', page_dashboard)
+router.get('/dashboard', authorizer, page_dashboard)
 ;
 /**
  * Subroutes 
@@ -57,6 +59,13 @@ router.use('/cart', 	 require('./cart'));
 router.use('/examples',  require('./examples/examples'));
 
 module.exports = router;
+
+function authorizer(req, res, next) {
+	if (req.user.role === UserRole.Admin)
+		return next();
+	else
+		return res.redirect("/");
+}
 
 
 async function page_profile(req, res) {
@@ -141,8 +150,9 @@ async function handle_update_profile(req, res) {
 	if (errors.length > 0) {
 		return res.render("user/profile/updateProfile", {
 			title: "wirela : update profile",
-				"mode"   : "update",
-				content: content
+				mode   : "update",
+				content: content,
+				errors : "errors",
 		})
 	}
 	try {
@@ -290,14 +300,31 @@ function page_home(req, res) {
  * @param {Request}  req Express request  object
  * @param {Response} res Express response object
  */
-function page_dashboard(req, res) {
-	res.render('staff/dashboard', {
-		"title": 'wirela - dashboard',
-		//"pageCSS": "/css/user/main.css"
-		layout: "staff",
-	});
+// function page_dashboard(req, res) {
+// 	res.render('staff/dashboard', {
+// 		"title": 'wirela - dashboard',
+// 		//"pageCSS": "/css/user/main.css"
+// 		layout: "staff",
+// 	});
+// }
+async function page_dashboard(req, res) {
+	try {
+		const products = await ModelProduct.findAndCountAll()
+		var totalProduct = await ModelProduct.count()
+		var totalUser = await ModelUser.count()
+		return res.render('staff/dashboard', {
+			title: "wirela staff: dashboard",
+			layout: "staff",
+			totalItems: totalProduct,
+			totalUserCount: totalUser,
+		})
+	} 
+	catch (error) {
+		console.error("Failed to retrieve products from database");
+		console.error(error);
+		return res.status(500).end();
+	}
 }
-
 
 
 

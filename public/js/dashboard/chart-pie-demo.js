@@ -7,11 +7,11 @@ var ctx = document.getElementById("myPieChart");
 var myPieChart = new Chart(ctx, {
   type: 'doughnut',
   data: {
-    labels: ["Direct", "Referral", "Social"],
+    labels: ["iPhone", "Samsung", "Huawei","Nokia","Oppo","Blackberry"],
     datasets: [{
-      data: [55, 30, 15],
-      backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
-      hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+      data: [6, 2, 3, 3, 2, 1],
+      backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#d6364b', '#cca60e', '#73726d'],
+      hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf', '#e02281', '#e6bf81', '#9aa1a6'],
       hoverBorderColor: "rgba(234, 236, 244, 1)",
     }],
   },
