@@ -139,7 +139,10 @@ function handle_login_submit(req, res, next) {
 
 	return Passport.authenticate('local', {failureFlash: 'Invalid username or password.'},function(err, user, info) {
         if (err) { return next(err); }
-        if (!user) { return res.redirect('/auth/login'); }
+        if (!user) { flash_message(res, FlashType.Warn, `Invalid Credentials`, 
+			"fas fa-sign-in-alt", 
+			true);
+			return res.redirect('/auth/login'); }
         req.logIn(user, function(err) {
             if (err) { return next(err); }
             if (user.role === UserRole.Admin)

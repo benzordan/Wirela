@@ -41,8 +41,11 @@ router.get('/',      page_home);
 router.get('/about', page_about);
 router.get('/catalog', page_catalog)
 router.get('/profile', page_profile)
+router.get('/update/:uuid',  page_update_profile);
+router.patch('/update/:uuid', handle_update_profile);
 router.get('/cart', page_cart)
 router.get('/thankyou', page_ty)
+router.get('/dashboard', page_dashboard)
 ;
 /**
  * Subroutes 
@@ -63,6 +66,7 @@ async function page_profile(req, res) {
 	});
 		if (content) {
 			return res.render('user/profile/userProfile', {
+				uuid : req.user.uuid,
 				name : req.user.name,
 				email : req.user.email,
 				password: req.user.password,
@@ -82,6 +86,101 @@ async function page_profile(req, res) {
 		return res.status(500).end()
 	}
 }
+
+/**
+ * This function updates the attributes of the products that has been stored in the database
+ * @param {Request} req 
+ * @param {Response} res 
+ */
+async function page_update_profile(req, res) {
+	try {
+		// Load the update product page according to req.params["uuid"]
+		const content = await ModelUser.findOne({
+			where: { 
+				"uuid": req.params["uuid"] 
+			},
+		});
+		// If the user is found, render the update user page
+		if (content) {
+			return res.render('user/profile/updateProfile', {
+				title: "wirela : update profile",
+				"content": content
+			});
+		}
+		else {
+			console.error(`Failed to retrieve user ${req.params["uuid"]}`);
+			console.error("error");
+			return res.status(410).end();
+		}
+	}
+	catch (error) {
+		console.error(`Failed to retrieve product ${req.params["uuid"]}`);
+		console.error(error);
+		return res.status(500).end();
+	}
+}
+
+/**
+ * This function finds the product in the database and update it's contents
+ * @param {Request} res 
+ * @param {Response} req 
+ */
+async function handle_update_profile(req, res) {
+	console.log("Incoming update request")
+	const content = await ModelUser.findOne({
+		where: { 
+			"uuid": req.params["uuid"] 
+		},
+	});
+	var errors = []
+	var regex  = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$ /
+	if (regex.test(req.body["email"])) {
+		errors.push({message: "Invalid email: Please enter valid email"})
+	}
+	console.log(errors)
+	if (errors.length > 0) {
+		return res.render("user/profile/updateProfile", {
+			title: "wirela : update profile",
+				"mode"   : "update",
+				content: content
+		})
+	}
+	try {
+		const contents = await ModelUser.findAll({
+				where: { 
+					"uuid": req.params["uuid"]
+			}
+		})
+		switch (contents.length) {
+			case 0      : return res.redirect(410, "/profile")
+			case 1      : break;
+				default: return res.redirect(409, "/profile")
+		}
+		//	Ignore the uuid
+		delete req.body["uuid"];
+
+		const data = {
+			"name"    : req.body["name"],
+			"email"	  : req.body["email"],
+		}
+	
+		// This line updates the contents of the user 
+		await (await contents[0].update(data)).save();
+
+
+		flash_message(res, FlashType.Success, `User profile updated`);
+		console.log(req.body);
+		return res.redirect(`/profile`);
+	}
+	
+	catch (error) {
+		console.error("Failed to update user");
+		console.error(error);
+		return res.status(500).end();
+	}
+}
+
+
 
 async function page_catalog(req, res) {
 	// Set pagination attributes
@@ -185,6 +284,20 @@ function page_home(req, res) {
 		"pageCSS": "/css/user/main.css"
 	});
 }
+
+/**
+ * Renders the home page
+ * @param {Request}  req Express request  object
+ * @param {Response} res Express response object
+ */
+function page_dashboard(req, res) {
+	res.render('staff/dashboard', {
+		"title": 'wirela - dashboard',
+		//"pageCSS": "/css/user/main.css"
+		layout: "staff",
+	});
+}
+
 
 
 
