@@ -1,5 +1,5 @@
 import { Sequelize, Model, DataTypes } from 'sequelize'
-import { ModelAttributes, InitOptions, UpdateOptions } from 'sequelize'
+import { ModelAttributes, InitOptions } from 'sequelize'
 /** 
  * @typedef {import('./structures').Product} Product 
 **/
