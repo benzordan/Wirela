@@ -3,16 +3,27 @@ import { ModelProduct  } from '../../../models/models';
 import { UserRole } from '../../../models/users'
 import { flash_message, FlashType  } from '../../../helpers/flash-messenger';
 import  productController from '../../../controller/productController';
-import { getPagination, getPagingData } from '../../../controller/paginationController';
 import { upload, remove_file, imageUrl} from '../../../helpers/imageUpload';
 import { Op } from 'sequelize';
 
 const router = Router({
-	caseSensitive: false,   //	Ensure that /home vs /HOME does exactly the same thing
-	mergeParams  : false,   //	Cascade all parameters down to children routes.
-	strict       : false    //	Whether we should strictly differenciate "/home/" and "/home"
+	caseSensitive: false,
+	mergeParams  : false,
+	strict       : false   
 });
 
+/**
+ * ===========
+ * Sub-Routes
+ * ===========
+ * /product/list
+ * /product/list/:uuid
+ * /product/create
+ * /product/download
+ * /product/update/:uuid
+ * /product/update/:uuid
+ * /product/delete/:uuid
+ */
 // Retrieve
 router.get('/list', authorizer, page_list_products);
 router.get('/list/:uuid', authorizer, page_list_productitem);
@@ -36,44 +47,30 @@ function authorizer(req, res, next) {
 
 /**
  * This function displays the list of products stored in the database
- * @param {Request} request
- * @param {Response} response
+ * @param {Request} request Incoming HTTP request object
+ * @param {Response} response Outgoing HTTP request object
  */
 async function page_list_products(req, res) {
-	// Set pagination attributes
-	var size = 10;
 	const { page, search } = req.query;
-	console.log(search)
-	const { limit, offset } = getPagination(page, size)
 	try {
-		const products = await ModelProduct.findAndCountAll({limit:limit, offset:offset})
-		var totalProduct = await ModelProduct.count()
-		var data = getPagingData(products, page, limit)
+		var products = await ModelProduct.findAll()
 		// If there is a search query, find the product that user searched for
 		if (search) {
-			const foundProducts = await ModelProduct.findAndCountAll({
+			var products = await ModelProduct.findAll({
 				where: {
 					name: {
 						[Op.like]: '%' + search + '%'
 					}
 				},
-				limit: limit,
-				offset: offset
 			})
-			var data = getPagingData(foundProducts, page, limit);
-			console.log("size: ", data.productCount)
-			console.log("total items: ", totalProduct)
-			console.log("total pages: ", data.totalPages);
-			console.log("current page: ", data.currentPage);
+			var searchquery = search
 		}
+		// Render the productList handlebars which displays page listing all the products
 		return res.render('staff/products/productList', {
 			title: "wirela staff: product list",
 			layout: "staff",
-			products: data.products,
-			numOfProducts: data.productCount,
-			totalItems: totalProduct,
-			currentPage: data.currentPage,
-			totalPages: data.totalPages,			
+			products: products,
+			search: searchquery,		
 			pageCSS: "/css/staff/prodlist.css",
 			pageJS: "/js/staff/products.js"
 		})
@@ -135,24 +132,28 @@ function page_create_product(req, res) {
 
 /**
  * This function retrieves user input and creates a product object
- * @param {Request} req 
- * @param {Response} res 
+ * @param {Request} req Incoming HTTP request object
+ * @param {Response} res Outgoing HTTP response object
  */
 
 async function handle_create_product(req, res) {
 	var errors = []
-	var regex  = /^\d+(,\d{1,2})?$/
 
-	if (regex.test(req.body["quantity"])) {
+	// Tests expression for up to 2 decimal places
+	var regex = /[0-9]+(\.[0-9][0-9]?)?/
+	// Test user input quantity against regex
+	if (!regex.test(req.body["quantity"])) {
 		errors.push({message: "Invalid quantity: Please enter valid characters"})
 	}
-	if (regex.test(req.body["price"])) {
+	// Test user input price against regex
+	if (!regex.test(req.body["price"])) {
 		errors.push({message: "Invalid price: Please enter valid characters"})
 	}
 	if (errors.length > 0) {
+		// Render create product page if there are more than 1 errors 
 		return res.render("staff/products/createProduct", {
 			layout : "staff",
-			mode: "update",
+			mode: "create",
 			"errors": errors,
 			content : req.body
 		})
@@ -165,7 +166,7 @@ async function handle_create_product(req, res) {
 				"description" : req.body["description"],
 				"quantity": req.body["quantity"],
 				"price"   : req.body["price"],
-				"urlImage": (req.file) ? `${imageUrl}/${req.file.filename}`: req.body["productURL"]
+				"urlImage": (req.file) ? `${imageUrl}/${req.file.filename}`: "/img/no-image.jpg"
 			});
 			flash_message(res, FlashType.Success, `${req.body.name} has been added`);
 			res.redirect("/admin/product/list")
@@ -180,8 +181,8 @@ async function handle_create_product(req, res) {
 }
 /**
  * This function updates the attributes of the products that has been stored in the database
- * @param {Request} req 
- * @param {Response} res 
+ * @param {Request} req Incoming HTTP request object
+ * @param {Response} res Outgoing HTTP response object
  */
 async function page_update_product(req, res) {
 	try {
@@ -215,8 +216,8 @@ async function page_update_product(req, res) {
 
 /**
  * This function finds the product in the database and update it's contents
- * @param {Request} res 
- * @param {Response} req 
+ * @param {Request} req Incoming HTTP request object
+ * @param {Response} res Outgoing HTTP response object
  */
 async function handle_update_product(req, res) {
 	console.log("Incoming update request")
@@ -226,14 +227,19 @@ async function handle_update_product(req, res) {
 		},
 	});
 	var errors = []
-	var regex  = /(^(\+|\-)(0|([1-9][0-9]*))(\.[0-9]{1,2})?$)|(^(0{0,1}|([1-9][0-9]*))(\.[0-9]{1,2})?$) /
-	if (regex.test(req.body["quantity"])) {
+	// This regular expression tests for values up to 2 decimal places
+	var regex = /[0-9]+(\.[0-9][0-9]?)?/
+
+	// Test the user input quantity against regex
+	if (!regex.test(req.body["quantity"])) {
 		errors.push({message: "Invalid quantity: Please enter valid characters"})
 	}
-	if (regex.test(req.body["price"])) {
+	// Tests the user input price against regex
+	if (!regex.test(req.body["price"])) {
 		errors.push({message: "Invalid price: Please enter valid characters"})
 	}
 	if (errors.length > 0) {
+		// Render the create product page in update mode with errors displayed
 		return res.render("staff/products/createProduct", {
 			layout : "staff",
 			title: "wirela: update product",
@@ -248,6 +254,7 @@ async function handle_update_product(req, res) {
 					"uuid": req.params["uuid"]
 			}
 		})
+		// If there is a file uploaded, set replace file to true, or else do not replace file
 		const replaceFile = (req.file)? true: false;
 		switch (contents.length) {
 			case 0      : return res.redirect(410, "/admin/product/list")
@@ -303,8 +310,8 @@ async function handle_update_product(req, res) {
 
 /**
  * This functions deletes the product from the database
- * @param {Request} res 
- * @param {Response} req 
+ * @param {Request} req Incoming HTTP request object
+ * @param {Response} res Outgoing HTTP response object
  */
 
 async function handle_delete_product(req, res) {

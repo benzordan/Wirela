@@ -69,7 +69,7 @@ export const productlist = [
         "description": "This is the Huawei P40 pro",
         "quantity": 10,
         "price": 978,
-        "urlImage": "/uploads/p40lite.png"
+        "urlImage": "/uploads/p40plus.png"
     },
     {
         "name":"Huawei P40 Lite",
@@ -77,7 +77,7 @@ export const productlist = [
         "description": "This is the Huawei P40 lite",
         "quantity": 10,
         "price": 300,
-        "urlImage": "/uploads/p40lite.png"
+        "urlImage": "/uploads/p40lite.jpg"
     },
     {
         "name":"Apple IPhone XR",
@@ -99,9 +99,9 @@ export const productlist = [
         "name":"Apple IPhone 3",
         "category": "Phone",
         "description": "This is the Apple IPhone 3",
-        "quantity": 10,
+        "quantity": 10, 
         "price": 100,
-        "urlImage": "/uploads/3gs.png"
+        "urlImage": "/uploads/iphone4.jpg"
     },
     {
         "name":"Apple IPhone 3GS",
