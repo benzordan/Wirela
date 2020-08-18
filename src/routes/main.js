@@ -9,36 +9,11 @@ import { sha256 } from 'hash.js';
 import { PassportStatic }           from 'passport';
 import { Strategy, VerifyFunction } from 'passport-local';
 
-
-
 const router = Router({
 	caseSensitive: false,
 	mergeParams  : false,
 	strict       : false
 });
-export const products = [
-	{
-		product: "Apple IPhone X",
-		desc: "Latest innovation",
-		price: 1000.55,
-	},
-	{
-		product: "Samsung X",
-		desc: "Next generation camera feature",
-		price: 500.55,
-	},
-	{
-		product: "Oppo Xfinity",
-		desc: "Biggest screen",
-		price: 200.55,
-	},
-	{
-		product: "Lightning Cable",
-		desc: "The most overpriced product we have",
-
-		price: 4000.55,
-	},
-];
 /**
  * Base routes
  */
@@ -62,8 +37,6 @@ router.get('/members', authorizer, page_member_list)
 router.use('/auth',      require('./auth'));
 router.use('/admin',     require('./admin/admin'));
 router.use('/cart', 	 require('./cart'));
-//	This route contains examples
-router.use('/examples',  require('./examples/examples'));
 
 module.exports = router;
 
@@ -322,38 +295,23 @@ async function handle_update_password(req, res) {
 
 async function page_catalog(req, res) {
 	// Set pagination attributes
-	var size = 10;
-	const { page, search } = req.query;
-	console.log(search)
-	const { limit, offset } = getPagination(page, size)
+	var search = req.query.search
 	try {
-		const products = await ModelProduct.findAndCountAll({limit:limit, offset:offset})
-		var totalProduct = await ModelProduct.count()
-		var data = getPagingData(products, page, limit)
-		// If there is a search query, find the product that user searched for
+		var products = await ModelProduct.findAll()
 		if (search) {
-			const foundProducts = await ModelProduct.findAndCountAll({
+			var products = await ModelProduct.findAll({
 				where: {
 					name: {
 						[Op.like]: '%' + search + '%'
 					}
 				},
-				limit: limit,
-				offset: offset
 			})
-			var data = getPagingData(foundProducts, page, limit);
-			console.log("size: ", data.productCount)
-			console.log("total items: ", totalProduct)
-			console.log("total pages: ", data.totalPages);
-			console.log("current page: ", data.currentPage);
+			var searchquery = search
 		}
 		return res.render('catalog', {
 			title: "wirela: catalog",
-			products: data.products,
-			numOfProducts: data.productCount,
-			totalItems: totalProduct,
-			currentPage: data.currentPage,
-			totalPages: data.totalPages,
+			search: searchquery,
+			products: products,
 			"pageCSS": "/css/user/catalog.css",
 			"pageJS": "/js/catalog.js"
 		})

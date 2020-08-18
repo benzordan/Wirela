@@ -4,17 +4,14 @@
         <div class="search-form mb-3">
             <form action="/catalog">
                 <label for="search">Search</label>
-                <input name="search" class="search form-control" type="text" placeholder="Search by name..." aria-label="Search">   
+                <input name="search" class="search form-control" type="text" placeholder="Search by name..." aria-label="Search" {{#if search}} value="{{search}}"{{/if}}>   
             </form> 
         </div>
         <button id="filter" class="btn btn-primary">Filter</button>
         <div class="filter-menu">
             <a href="#" class="filter-item nameAsc">Name: A to Z</a>
             <a href="#" class="filter-item nameDes">Name: Z to A</a>
-            {{!-- <a href="#" class="filter-item priceAsc">Price: Low to High</a>
-            <a href="#" class="filter-item priceDes">Price: High to Low</a> --}}
         </div>
-        <span class="ml-3">Showing results:{{numOfProducts}} of {{totalItems}}</span>
     </div>
     <div class="product-list">
     {{#each products}}

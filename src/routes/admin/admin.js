@@ -1,5 +1,5 @@
 import { Router, Request, Response, NextFunction } from 'express'
-import { UserRole, ModelOrder, ModelProduct, ModelUser } from '../../models/models';
+import { UserRole, ModelOrder, ModelUser } from '../../models/models';
 import { flash_message, FlashType  } from '../../helpers/flash-messenger';
 import  productController from '../../controller/productController';
 import { getPagination, getPagingData } from '../../controller/paginationController';
@@ -46,10 +46,6 @@ function authorizer(request, response, next) {
  * @param {Request} request Incoming HTTP Request
  * @param {Response} response Outgoing HTTP 
  */
-
-
-async function page_order_item(req, res)
-
 
 async function page_order_list(req, res) {
 	try {

@@ -1,11 +1,12 @@
-<a class="btn btn-primary" href="/admin/product/list">Back</a>
-<div class="container">
+<div class="container mt-5">
+    <a class="btn btn-primary" href="/admin/product/list">Back</a>
     <div class="product-img-div"><img class="product-img" src="{{content.urlImage}}"></div>
     <div class="product-details">
-        <div class="product-name">{{content.name}}</div>
-        <div class="product-category">{{content.category}}</div>
-        <div class="product-description">{{content.description}}</div>
-        <div class="product-price">{{content.price}}</div>
+        <div class="product-name">Product: {{content.name}}</div>
+        <div class="product-category">Category: {{content.category}}</div>
+        <div class="product-description">Description: {{content.description}}</div>
+        <div class="product-quantity">Quantity: {{content.quantity}}</div>
+        <div class="product-price">Price: ${{content.price}}</div>
         <a href="/admin/product/update/{{content.uuid}}" class="card-link">
         <i class="fas fa-pencil-alt"></i>
             Edit
