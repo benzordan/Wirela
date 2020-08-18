@@ -5,6 +5,9 @@ import { UserRole } from '../models/users';
 import { ModelProduct } from '../models/products';
 import { getPagination, getPagingData } from '../controller/paginationController';
 import { Op } from 'sequelize';
+import { sha256 } from 'hash.js';
+import { PassportStatic }           from 'passport';
+import { Strategy, VerifyFunction } from 'passport-local';
 
 
 
@@ -45,9 +48,13 @@ router.get('/catalog', page_catalog)
 router.get('/profile', page_profile)
 router.get('/update/:uuid',  page_update_profile);
 router.patch('/update/:uuid', handle_update_profile);
-router.get('/cart', page_cart)
-router.get('/thankyou', page_ty)
-router.get('/dashboard', authorizer, page_dashboard)
+router.get('/updatepassword/:uuid',  page_update_password);
+router.patch('/updatepassword/:uuid', handle_update_password);
+
+router.get('/cart', page_cart);
+router.get('/thankyou', page_ty);
+router.get('/dashboard', authorizer, page_dashboard);
+router.get('/members', authorizer, page_member_list)
 ;
 /**
  * Subroutes 
@@ -66,6 +73,33 @@ function authorizer(req, res, next) {
 	else
 		return res.redirect("/");
 }
+
+/**
+ * This function displays the list of products stored in the database
+ * @param {Request} request
+ * @param {Response} response
+ */
+async function page_member_list(req, res) {
+	// Set pagination attributes
+	try {
+		const members = await ModelUser.findAll({where : {"role" : UserRole.User}})
+		// If there is a search query, find the product that user searched for
+		
+		return res.render('staff/memberList', {
+			title: "wirela staff: member list",
+			layout: "staff",
+			members : members,
+			pageCSS: "/css/staff/prodlist.css",
+			//pageJS: "/js/staff/products.js"
+		})
+	} 
+	catch (error) {
+		console.error("Failed to retrieve products from database");
+		console.error(error);
+		return res.status(500).end();
+	}
+}
+
 
 
 async function page_profile(req, res) {
@@ -187,6 +221,100 @@ async function handle_update_profile(req, res) {
 		console.error("Failed to update user");
 		console.error(error);
 		return res.status(500).end();
+	}
+}
+
+async function page_update_password(req, res) {
+	try {
+		// Load the update product page according to req.params["uuid"]
+		const content = await ModelUser.findOne({
+			where: { 
+				"uuid": req.params["uuid"] 
+			},
+		});
+		// If the user is found, render the update user page
+		if (content) {
+			return res.render('user/profile/updatePassword', {
+				title: "wirela : update password",
+				"content": content
+			});
+		}
+		else {
+			console.error(`Failed to retrieve user ${req.params["uuid"]}`);
+			console.error("error");
+			return res.status(410).end();
+		}
+	}
+	catch (error) {
+		console.error(`Failed to retrieve product ${req.params["uuid"]}`);
+		console.error(error);
+		return res.status(500).end();
+	}
+}
+
+/**
+ * This function finds the product in the database and update it's contents
+ * @param {Request} res 
+ * @param {Response} req 
+ */
+async function handle_update_password(req, res) {
+	console.log("Incoming update request")
+	const content = await ModelUser.findOne({
+		where: { 
+			"uuid": req.params["uuid"] 
+		},
+	});
+	const errors = [];
+	const fmtPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
+	if (sha256().update(req.body["oldpassword"]).digest("hex") !== content.password)
+		errors.push({message: "Enter correct old password"});
+	if (req.body["newpassword"] !== req.body["confirmpassword"])
+		errors.push({message: "Mismatched password"});
+	if (!fmtPassword.test(req.body["newpassword"])) {
+		errors.push({message: "Password must contain at least 1 lower, 1 upper, 1 numeric and 1 special character. Minimum size of 8"});
+	}
+	
+	if (errors.length > 0) {
+		res.render("user/profile/updatePassword", {
+			"alert_failure": "Unable to update password.",
+			"errors"       : errors,
+			"data"         : req.body,
+			content: content,
+		});
+	}
+	else {
+		try {
+			const contents = await ModelUser.findAll({
+					where: { 
+						"uuid": req.params["uuid"]
+				}
+			})
+			switch (contents.length) {
+				case 0      : return res.redirect(410, "/profile")
+				case 1      : break;
+					default: return res.redirect(409, "/profile")
+			}
+			//	Ignore the uuid
+			delete req.body["uuid"];
+
+			const data = {
+				"password" : sha256().update(req.body["confirmpassword"]).digest("hex")
+			}
+		
+			// This line updates the contents of the user 
+			await (await contents[0].update(data)).save();
+
+
+			flash_message(res, FlashType.Success, `Password updated`);
+			console.log(req.body);
+			return res.redirect(`/profile`);
+		}
+		
+		catch (error) {
+			console.error("Failed to update user");
+			console.error(error);
+			return res.status(500).end();
+		}
 	}
 }
 

@@ -151,7 +151,7 @@ async function handle_create_product(req, res) {
 	if (errors.length > 0) {
 		return res.render("staff/products/createProduct", {
 			layout : "staff",
-			mode: "update",
+			mode: "create",
 			"errors": errors,
 			content : req.body
 		})

@@ -1,0 +1,21 @@
+<div class="text-center"><h1 class="page-header">Member List</h1></div>
+<table class="table">
+  <thead class="grey lighten-2">
+    <tr>
+      <th scope="col">uuid</th>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Date Created</th>
+    </tr>
+  </thead>
+  <tbody>
+      {{#each members}}
+    <tr>
+      <th scope="row">{{uuid}}</th>
+      <td>{{name}}</td>
+      <td>{{email}}</td>
+      <td>@{{dateCreated}}</td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
