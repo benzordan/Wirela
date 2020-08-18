@@ -97,21 +97,11 @@ async function page_order_item(req, res) {
 }
 async function page_invoice(req, res) {
 	try {
-		const content = await ModelUser.findOne({
-			// Find a product according to req.params["uuid"]
-	});
-		if (content) {
-			return res.render('staff/orders/invoice', {
-				title: "wirela staff: invoice",
-				layout: "staff",
-				"content": content,
-			});
-		}
-		else {
-			console.error(`Failed to retrieve product ${req.params["uuidProduct"]}`);
-			console.error("error");
-			return res.status(410).end();
-		}
+		const orders = await ModelOrder.findAll()
+		res.render('staff/orders/invoice', {
+			orders:orders,
+			layout: "staff",
+		})
 	} catch (error) {
 		console.log("Internal server error")
 		console.error(error)
