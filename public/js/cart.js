@@ -1,35 +1,3 @@
-function onPayment(data, actions) {
-    // Make a call to the REST API to set up the payment
-    return actions.payment.create({
-      payment: {
-        transactions: [
-          {
-            amount: { total: '10.00', currency: 'SGD' }
-          }
-        ],
-        redirect_urls: {
-          return_url: '/thankyou',
-        }
-      }
-    });
-  }
-  
-  function onAuthorized(data, actions) {
-    return actions.payment.execute().then(function() {
-      actions.redirect();
-      }
-    );
-  }
-  
-  
-paypal.Button.render({
-    env: 'sandbox',
-    client: {
-      sandbox: "AfoA19isLSYjyh56dTvTfBcPOiZ75Sb4xSNAIl5Yd4Y38OYbhwXLaTrni-AlqaIgD9XEPwf2wyk8LmKT"
-    },
-    payment:     onPayment,
-    onAuthorize: onAuthorized,
-  }, '#paypal-button');
 
 
 

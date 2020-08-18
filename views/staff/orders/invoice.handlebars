@@ -1,7 +1,10 @@
+<head><link href="/css/staff/invoice.css" rel="stylesheet"></head>
 <br>
+<h1 class="bagtotal mt-0" style="text-align: center;">Invoice <span id="totalprice"></span></h1>
+<p style="text-align: center;">Recently purchased</p>
 <div class="container">
     <div class="text-center">
-        <div class="text-center"><h1 class="page-header">Invoice</h1></div>
+        
     </div>
 </div>
 <style>
@@ -9,9 +12,12 @@
     {
         margin:5px;
     }
+    .container{display:none}
 </style>
 
-<div id="cart-container" class="container">
+<div id="cart-container1" class="container getItems1"> NO RECORDS FOUND</div>
+
+<div id="cart-container" class="container getItems2">
      &nbsp;&nbsp;
     <ul class = "nav nav-tabs txtUpper 
     clearfix js-productInfoTab">
@@ -19,6 +25,8 @@
         <li class= "active" style="color:#1063F0";>
             Products
         </li>
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
         &nbsp;&nbsp;
         &nbsp;&nbsp;
         &nbsp;&nbsp;
@@ -57,15 +65,10 @@
         &nbsp;&nbsp;
         &nbsp;&nbsp;
         &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        &nbsp;&nbsp;
+         &nbsp;&nbsp;
         &nbsp;&nbsp;
         &nbsp;&nbsp;
          &nbsp;&nbsp;
-        &nbsp;&nbsp;
         &nbsp;&nbsp;
          &nbsp;&nbsp;
         &nbsp;&nbsp;
@@ -76,35 +79,13 @@
         &nbsp;&nbsp;
     </ul>
 
-    <div class="cart-items">
+    <div class="cart-items" id="insertItems">
 
-    {{#each orders}}
-        <div class="cart-row">
-            <div class="cart-item cart-column">
-                <div class="product-orderID">{{orderID}}</div>
-                <div class="product-name">{{name}}</div>   
-                <div class="product-orderDate">{{orderDate}}</div>             
-                <span class="cart-item-title">{{product}}</span>
-            </div>
-            <span class="cart-price cart-column">${{price}}</span>
-            <div class="product-quantity">{{quantity}}</div> 
-            <div class="cart-quantity cart-column">
-            
-
-                &nbsp;&nbsp;
-                &nbsp;&nbsp;
-                &nbsp;&nbsp;
-                
-                <button class="btn btn-danger" type="button" value="remove" 
-                onclick="alert('Item removed')">Remove</button>
-            </div>
-            
-        </div>
-    {{/each}}
     </div>
+
+
 </div>
 {{!-- Redirect to payment page --}}
-
  &nbsp;&nbsp;
     &nbsp;&nbsp;
     &nbsp;&nbsp;
@@ -114,3 +95,60 @@
     &nbsp;&nbsp;
     &nbsp;&nbsp;
     &nbsp;&nbsp;
+<script type = "text/javascript">
+
+    if(localStorage.getItem("addItem").length > 0){
+        getItem=localStorage.getItem("addItem");
+        
+        getItemx=JSON.parse(getItem);
+        console.log(getItemx,  localStorage.getItem("addItem").length)
+        
+        $("#cart-container1").hide();
+        $("#cart-container").show();
+        htmlTxt="";
+        for(var i=0; i<getItemx.length; i++){
+            var itrate=JSON.parse(getItemx[i]);
+            console.log(itrate);
+            htmlTxt+='<div class="cart-row" id="dynamic0'+i+'a"><div class="cart-item cart-column"><img class=="product-img" src="'+itrate.urlImage+'"width="100" height="100"><div class="product-name">'+itrate.name+'<\/div><span class="cart-item-title">'+itrate.product+'</span></div><span class="cart-price cart-column">'+itrate.price+' <\/span><div class="cart-quantity cart-column">'+"1"+'</div></div>';
+            
+        }
+        
+        $("#insertItems").html(htmlTxt);
+        
+    }else{
+        $("#cart-container").hide();
+        $("#cart-container1").show();
+    }
+
+setTimeout(function(){ 
+    $("#insertItems").delegate("button.btn-danger", "click", function(){
+        var attr=$(this).attr("id");
+        var prodName=$("#"+attr+"a .product-name").text();
+        console.log("dddd::", prodName)
+        $("#"+attr+"a").remove();
+                
+        
+        for(var i=0; i<getItemx.length; i++){
+            var itrate=JSON.parse(getItemx[i]);
+            if(prodName==itrate.name){
+                getItemx.splice(i, 1);
+               // delete getItemx[i]
+            }
+            console.log(getItemx, itrate.name, prodName);
+            
+        }
+        localStorage.setItem("addItem", JSON.stringify(getItemx));
+       // console.log(JSON.parse(getItemx));
+        if(localStorage.getItem("addItem").length > 0){
+            $("#cart-container1").hide();
+            $("#cart-container").show();
+        }else{
+            $("#cart-container").hide();
+            $("#cart-container1").show();
+        }
+    })
+
+
+}, 1000);    
+
+</script>
