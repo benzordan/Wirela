@@ -6,7 +6,7 @@
             <input name="search" class="search form-control" type="text" placeholder="Search by name..." aria-label="Search" {{#if search}}value="{{search}}"{{/if}}>   
         </form> 
     </div>
-    <button class="mb-2 btn btn-primary" href="/admin/product/list">View all products</button>
+    <button type="button" class="mb-2 btn btn-primary" onclick='location.href="/admin/product/list"'>View all products</button>
     <form action="/admin/product/download"> 
         <button type="submit" class="mb-4 btn btn-primary">Download product list</button>
     </form>  
