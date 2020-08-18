@@ -1,8 +1,19 @@
 $(document).ready(function() {
-    $('#productUpload').on('change', uploadImage)
-    
-    function uploadImage() {
-        $("#product-image").attr('src', data.file);
-        $("#productURL").attr('value', data.file);
-    }
+    $imgSrc = $('#productUpload').attr('src');
+        function readURL(input) {
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#productImage').attr('src', e.target.result);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    $('#productUpload').on('change', function () {
+        readURL(this);
+        $('#productImage').attr('src', $imgSrc);
+    });
 });

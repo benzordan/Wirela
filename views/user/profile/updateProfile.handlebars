@@ -1,14 +1,14 @@
 <div class="container">
 	<div class="mr-5 card card-body">
 		<h3>Update Profile</h3>
-		<form action="/update/{{content.uuid}}?_method=PATCH" method="post" id="content-form" enctype="multipart/form-data">
+		<form action="/update/{{content.uuid}}?_method=PATCH" method="post" id="content-form">
 			<div class="form-group">
 				<label class="font-italic" for="name">Name</label>
-				<input type="text" class="form-control" name="name" value="{{content.name}}" required>
+				<input type="text" class="form-control" id="name" name="name" value="{{content.name}}" required>
 			</div>
 			<div class="form-group">
 				<label class="font-italic" for="name">Email</label>
-				<input type="email" class="form-control" name="email" value="{{content.email}}" required>
+				<input type="email" class="form-control" id="email" name="email" value="{{content.email}}" required>
 			</div>
 			
 			<button id="btnSubmit" type="submit" class="btn btn-primary">Save</button>
