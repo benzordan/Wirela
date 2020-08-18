@@ -241,6 +241,8 @@ async function handle_update_password(req, res) {
 	const fmtPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
 	if (sha256().update(req.body["oldpassword"]).digest("hex") !== content.password)
 		errors.push({message: "Enter correct old password"});
+	if (sha256().update(req.body["newpassword"]).digest("hex") === content.password)
+		errors.push({message: "New password is existing password"});
 	if (req.body["newpassword"] !== req.body["confirmpassword"])
 		errors.push({message: "Mismatched password"});
 	if (!fmtPassword.test(req.body["newpassword"])) {
